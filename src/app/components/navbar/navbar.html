@@ -1,0 +1,16 @@
+<nav>
+    <!-- Logo y Nombre de app -->
+    <div>
+
+    </div>
+    <!-- Links -->
+    <ul>
+    @for (link of navLinks; track link.label) {
+        @if (link.enabled) {
+            <li>
+                <a [routerLink]="link.path">{{ link.label }}</a>
+            </li>
+        }
+    }
+    </ul>
+</nav>

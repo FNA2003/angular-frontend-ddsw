@@ -1,1 +1,2 @@
-# TODO
+- Rutas definidas en app.routes.ts
+- Los links disponibles de la barra de navegación se halla en services/navbar y, el componente que lo renderiza esta en components/navbar
