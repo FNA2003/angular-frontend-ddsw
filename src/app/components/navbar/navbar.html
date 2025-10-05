@@ -8,6 +8,7 @@
     <ul>
     @for (link of navLinks; track link.label) {
         @if (link.enabled) {
+            <i class="{{ link.icon }}"></i>
             <li>
                 <a [routerLink]="link.path">{{ link.label }}</a>
             </li>

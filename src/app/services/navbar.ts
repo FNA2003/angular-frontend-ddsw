@@ -16,9 +16,9 @@ export interface LinkI {
 export class NavbarService {
   /* Por ahora le damos estos links para la página home, luego, mainPage cargará los otros links */
   private linksSubject = new BehaviorSubject<LinkI[]>([
-    { label:"Home",     path:"",         enabled:true, icon:"" },
-    { label:"Register", path:"register", enabled:true, icon:"" },
-    { label:"Login",    path:"login",    enabled:true, icon:"" }
+    { label:"Home",     path:"",         enabled:true, icon:"bi bi-house" },
+    { label:"Register", path:"register", enabled:true, icon:"bi bi-person-add" },
+    { label:"Login",    path:"login",    enabled:true, icon:"bi bi-box-arrow-in-right" }
   ]);
   links$ = this.linksSubject.asObservable();
 
