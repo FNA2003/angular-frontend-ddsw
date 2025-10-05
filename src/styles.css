@@ -26,3 +26,7 @@ a {
 a:hover {
     border-bottom: 1px solid var(--text-color);
 }
+
+*::selection {
+    background: var(--secondary-bg-color);
+}
