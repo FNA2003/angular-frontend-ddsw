@@ -1,8 +1,13 @@
 <nav>
     <!-- Logo y Nombre de app -->
-    <div>
-        <div></div>
-        <p>Tareas</p>
+    <div id="logo-container">
+        <span>Tareas</span>
+        <div id="logo">
+            <div class="icon-bar"></div>
+            <div class="icon-bar"></div>
+            <div class="icon-bar"></div>
+            <div class="icon-bar"></div>
+        </div>
     </div>
     <!-- Links -->
     <ul>
@@ -10,8 +15,9 @@
         @if (link.enabled) {
             <li>
                 <a [routerLink]="link.path">
+                    <span class="link-label">{{ link.label }}</span>
                     <i class="{{ link.icon }}"></i>
-                    {{ link.label }}</a>
+                </a>
             </li>
         }
     }

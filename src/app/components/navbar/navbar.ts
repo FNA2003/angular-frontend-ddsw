@@ -16,13 +16,15 @@ export class NavbarComponent {
 
   /* Links de las rutas sin acceso */
   public firstLinks:LinkI[] = [
-    { label:"Home",     path:"home",         enabled:true, icon:"bi bi-house" },
-    { label:"Register", path:"register", enabled:true, icon:"bi bi-person-add" },
-    { label:"Login",    path:"login",    enabled:true, icon:"bi bi-box-arrow-in-right" }
+    { label:"Inicio",   path:"home",     enabled:true, icon:"bi bi-house-fill" },
+    { label:"Registro", path:"register", enabled:true, icon:"bi bi-arrow-down-circle-fill" },
+    { label:"Loggeo",   path:"login",    enabled:true, icon:"bi bi-arrow-right-circle" }
   ];
   /* Links de la página principal, luego del loggeo */
   public appLinks:LinkI[] = [
-    { label:"Home",     path:"app", enabled:true, icon:"bi bi-house" }
+    { label:"Inicio",   path:"app",      enabled:true, icon:"bi bi-house-fill" },
+    /*{ label:"Agenda",     path:"", enabled:true, icon:"bi bi-calendar-fill" },
+    { label:"Cerrar Sesión",     path:"", enabled:true, icon:"bi bi-box-arrow-right" },*/
   ];
   
 
