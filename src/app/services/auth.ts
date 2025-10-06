@@ -12,9 +12,9 @@ export class Auth {
   constructor(private http:HttpClient) {  }
 
   register(user:User):Observable<any> {
-    return this.http.post(`${this.baseUrl}/register`, user);
+    return this.http.post(`${this.baseUrl}/register/`, user);
   }
   login(user:User):Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, user);
+    return this.http.post(`${this.baseUrl}/login/`, user);
   }
 }

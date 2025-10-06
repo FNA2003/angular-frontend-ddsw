@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,20 +21,23 @@ export class Register {
     last_name: new FormControl(''),
   });
 
-  constructor(private toastr: ToastrService, private authService: Auth) {  }
+  constructor(private toastr: ToastrService, private authService: Auth, private router:Router) {  }
 
 
   /* Método que se llama una vez que se 'submitea' algo */
   onSubmit():void {
     if (this.userForm.invalid) {
-      this.toastr.warning("Completá todos los campos requeridos!");
+      this.toastr.warning("Completá todos los campos requeridos y asegurate que el email tenga formato válido!");
       return;
     }
 
     const user: User = this.userForm.getRawValue() as User;
 
     this.authService.register(user).subscribe({
-      next: () => this.toastr.success("Usuario Registrado!"),
+      next: () => { 
+        this.toastr.success("Usuario Registrado!");
+        this.router.navigate(["/app"]);
+      },
       error: () => this.toastr.error("Error al registrar el usuario!")
     });
   }
