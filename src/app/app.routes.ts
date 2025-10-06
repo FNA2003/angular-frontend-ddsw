@@ -4,6 +4,7 @@ import { Register } from './components/register/register';
 import { Login } from './components/login/login';
 import { MainPage } from './components/main-page/main-page';
 import { AuthGuard } from './interceptors/auth-guard';
+import { Logout } from './components/logout/logout';
 
 export const routes: Routes = [
     // Desde index hasta abajo
@@ -15,5 +16,6 @@ export const routes: Routes = [
     {path:"login", component:Login},
     
     // COMPONENTES PROTEGIDOS (NECESITAMOS LOGGEARNOS)
-    {path:"app", component:MainPage, canActivate:[AuthGuard]}
+    {path:"app", component:MainPage, canActivate:[AuthGuard]},
+    {path:"logout", component:Logout, canActivate:[AuthGuard]}
 ];
