@@ -1,0 +1,36 @@
+#notifications-flot {
+    position: sticky;
+    z-index: 100;
+    top: 4rem;
+    left: calc(100vw - 24px);
+
+    width: fit-content;
+    height: fit-content;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    vertical-align: middle;
+    text-align: center;
+
+    border: 1px solid var(--text-color);
+    border-radius: 20px 0 0 20px;
+
+    cursor: pointer;
+}
+
+.bi-bell-fill {
+    margin: 24px;
+    font-size: 1.7rem;
+}
+
+#notifications-float:active {
+    background-color: red;
+}
+
+main {
+    height: 80vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
