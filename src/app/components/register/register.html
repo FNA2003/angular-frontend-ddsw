@@ -1,1 +1,14 @@
-<p>register works!</p>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div>
+        <label>Nombre de Usuario:</label>
+        <input formControlName="username" type="text" />
+        
+        @if (userForm.get("username")?.invalid && userForm.get("username")?.touched) {
+            <div>
+                <small>Campo obligatorio</small>
+            </div>
+        }
+    </div>
+
+    <button type="submit">Registrarse</button>
+</form>

@@ -1,9 +1,10 @@
 import { Organization } from "./organization.model";
 
 export class User {
-    id!:number;
+    id?:number;
     username!:string;
     email!:string;
+    password!:string;
     first_name?:string;
     last_name?:string;
     organization_fk?:Organization;

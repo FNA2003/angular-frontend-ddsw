@@ -1,3 +1,7 @@
+/* Tengo que si o si agregar el estilo de toastr :/ */
+@import url("ngx-toastr/toastr");
+
+
 :root {
     --text-color:#2B2C34;
     

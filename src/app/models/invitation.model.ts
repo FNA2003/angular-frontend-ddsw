@@ -7,7 +7,7 @@ export enum InvitationsEnum {
     REFUSED = 'R',
 }
 export class Invitation {
-    id!:number;
+    id?:number;
     organization_fk!:Organization;
     receiver_email!:string;
     sender_fk!:User;
