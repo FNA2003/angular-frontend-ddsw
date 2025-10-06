@@ -14,7 +14,7 @@ export class Auth {
   register(user:User):Observable<any> {
     return this.http.post(`${this.baseUrl}/register/`, user);
   }
-  login(user:User):Observable<any> {
+  login(user:{email:string; password:string}):Observable<any> {
     return this.http.post(`${this.baseUrl}/login/`, user);
   }
 }

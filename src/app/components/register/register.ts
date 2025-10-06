@@ -28,7 +28,7 @@ export class Register {
   /* Método que se llama una vez que se 'submitea' algo */
   onSubmit():void {
     if (this.userForm.invalid) {
-      this.toastr.warning("Completá todos los campos requeridos y asegurate que el email tenga formato válido!");
+      this.toastr.warning("Completá todos los campos requeridos y asegurate que el email tenga formato válido!", "Formulario Inválido");
       return;
     }
 
@@ -37,10 +37,10 @@ export class Register {
     this.authService.register(user).subscribe({
       next: (response:any) => { 
         localStorage.setItem("acc_tk", response.access);
-        this.toastr.success("Usuario Registrado!");
+        this.toastr.success("Redirigiendo...", "Usuario Registrado!");
         this.router.navigate(["/app"]);
       },
-      error: () => this.toastr.error("Error al registrar el usuario!")
+      error: (response:any) => this.toastr.error(response.errors, "Error al registrar el usuario!")
     });
   }
 }
