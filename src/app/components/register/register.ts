@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -34,7 +35,8 @@ export class Register {
     const user: User = this.userForm.getRawValue() as User;
 
     this.authService.register(user).subscribe({
-      next: () => { 
+      next: (response:any) => { 
+        localStorage.setItem("acc_tk", response.access);
         this.toastr.success("Usuario Registrado!");
         this.router.navigate(["/app"]);
       },

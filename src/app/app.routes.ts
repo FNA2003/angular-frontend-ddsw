@@ -3,6 +3,7 @@ import { Home } from './components/home/home';
 import { Register } from './components/register/register';
 import { Login } from './components/login/login';
 import { MainPage } from './components/main-page/main-page';
+import { AuthGuard } from './interceptors/auth-guard';
 
 export const routes: Routes = [
     // Desde index hasta abajo
@@ -13,6 +14,6 @@ export const routes: Routes = [
     {path:"register", component:Register},
     {path:"login", component:Login},
     
-    // Página que veremos al logearnos y, de donde accederemos a las invitaciones y demás
-    {path:"app", component:MainPage}  
+    // COMPONENTES PROTEGIDOS (NECESITAMOS LOGGEARNOS)
+    {path:"app", component:MainPage, canActivate:[AuthGuard]}
 ];
