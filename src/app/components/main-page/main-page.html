@@ -1,7 +1,11 @@
 <!-- Flotante de notificaciones -->
-<button id="notifications-flot">
+<button id="notifications-flot" (click)="toggleNotificationsPanel()">
     <i class="bi bi-bell-fill"></i>
 </button>
+
+@if (showNotificationsPanel) {
+    <app-notifications></app-notifications>
+}
 
 
 <!-- Acá irían los proyectos :D -->
