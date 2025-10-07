@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class Notifications {
+export class NotificationsService {
   private baseUrl = "http://localhost:8000/api/invitations";
 
   constructor(private http: HttpClient) {  }
