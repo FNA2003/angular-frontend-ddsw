@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -10,11 +10,11 @@ import { catchError, Observable, throwError } from "rxjs";
  * token vencido. (Podría agregar un refresh del token... Pera nah)
  */
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class AuthInterceptor {
     constructor(private router:Router, private toastr:ToastrService) {  }
 
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    handle(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
         const JWT_TOKEN = localStorage.getItem("acc_tk");
         let send_request:HttpRequest<any>;
 
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
 
         /* Acá enviamos la query, y, si recibimos un error 401, 'cerramos sesión' */
-        return next.handle(send_request).pipe(
+        return next(send_request).pipe(
             catchError((error: HttpErrorResponse) => {
                 if (error.status === 401) {
                     // Token Inválido o sesión expirada
