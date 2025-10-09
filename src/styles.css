@@ -5,10 +5,13 @@
 :root {
     --text-color:#2B2C34;
     
+    --success-color:#5BD7A6;
+    
     --main-bg-color:#FFFFFE;
     --highlight-bg-color:#6246EA;
     --secondary-bg-color:#D1D1E9;
     --tertiary-bg-color:#E45858;
+    --quaternary-bg-color:#FFF7F7;
 }
 
 * {

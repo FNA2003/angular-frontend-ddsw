@@ -1,0 +1,34 @@
+<div>
+    <div id="invitations-container">
+      @for(invitacion of invitations; track invitacion.send_date) {
+        <div>
+          <div>
+            <span>Fecha de envio: {{ invitacion.send_date | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div>
+            <span style="font-style:italic;"> (dd/mm/aaaa) </span>
+          </div>
+        </div>
+        <div>
+          <span>Organización: {{ invitacion.organization_fk.name }}</span>
+        </div>
+        <div>
+          <div>
+            <span>Remitente: {{ invitacion.sender_fk.username }}</span>
+          </div>
+          <div>
+            <span style="font-style:italic;"> (email): {{ invitacion.sender_fk.email }} </span>
+          </div>
+        </div>
+        <div class="invitations-buttons-container">
+          <button (mousedown)="acceptInvitation(invitacion)" class="accept-invitation">Aceptar</button>
+          <button (mousedown)="rejectInvitation(invitacion)" class="reject-invitation">Rechazar</button>
+        </div>
+
+        <br><hr><br>
+      } @empty {
+        <p>Sin invitaciones</p>
+        <br><hr><br>
+      }
+    </div>
+  </div>

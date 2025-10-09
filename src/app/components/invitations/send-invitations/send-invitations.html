@@ -1,0 +1,24 @@
+<div id="sInvitation-container">
+    <div>
+        <input [formControl]="emailControl" type="email" placeholder="Ingresá un email" />
+        @if (emailControl.valid) {
+            <button (click)="addEmail()">Agregar</button>
+        }
+    </div>
+
+    <ul>
+        @for(email of emailList; let i = $index; track email) {
+            <li>
+                <span>{{ email }}</span>
+                <button (click)="removeEmail(i)">Eliminar</button>
+            </li>
+        }
+    </ul>
+
+    @if (emailList.length > 0) {
+        <button (click)="sendEmails()">
+        Invitar participantes
+        <i class="bi bi-plus"></i>
+        </button>
+    }
+</div>

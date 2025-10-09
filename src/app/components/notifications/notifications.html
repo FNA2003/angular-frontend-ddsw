@@ -1,9 +1,0 @@
-<div class="floating-card">
-  @for(invitacion of invitations; track invitacion.send_date) {
-    <span>Fecha de envio: {{ invitacion.send_date }}</span>
-    <span>Organization_fk: {{ invitacion.organization_fk }}</span>
-    <br>
-  } @empty {
-    <p>Sin invitaciones</p>
-  }
-</div>
