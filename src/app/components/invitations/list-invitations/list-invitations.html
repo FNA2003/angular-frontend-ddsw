@@ -1,5 +1,6 @@
 <div>
     <div id="invitations-container">
+      <h4>Lista de invitaciones recibidas</h4>
       @for(invitacion of invitations; track invitacion.send_date) {
         <div>
           <div>
@@ -27,7 +28,7 @@
 
         <br><hr><br>
       } @empty {
-        <p>Sin invitaciones</p>
+        <br><p>Sin invitaciones...</p>
         <br><hr><br>
       }
     </div>
