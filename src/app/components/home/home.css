@@ -1,15 +1,16 @@
 article {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
     gap: 16px;
 
     align-items: center;
 }
+.article-image { text-align: center; }
 
 img { 
     margin: 1.2rem;
-    max-width: 750px; 
+    max-width: 40vw;
 }
 
 .a-title {
@@ -20,10 +21,10 @@ img {
 }
 
 .a-text {
-    letter-spacing: 6px; /* Separar horizontalmente letras */
-    line-height: 80px;   /* Tamaño del salto de línea */
+    letter-spacing: 1.3px; /* Separar horizontalmente letras */
+    line-height: 3.5rem;   /* Tamaño del salto de línea */
     font-weight: 300;
-    font-size: 40px;
+    font-size: 1.8rem;
 
-    padding: 4rem;
+    padding: 2rem;
 }
