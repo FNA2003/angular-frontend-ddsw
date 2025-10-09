@@ -17,4 +17,11 @@ export class InvitationsService {
   sendInvitations(emails:string[]):Observable<any> {
     return this.http.post(`${this.baseUrl}/send/`, emails);
   }
+
+  rejectInvitation(invitationNumber:number):Observable<any> {
+    return this.http.delete(`${this.baseUrl}/handle/${invitationNumber}/`);
+  }
+  acceptInvitation(invitationNumber:number, invitation:Invitation):Observable<any> {
+    return this.http.post(`${this.baseUrl}/handle/${invitationNumber}/`, invitation);
+  }
 }

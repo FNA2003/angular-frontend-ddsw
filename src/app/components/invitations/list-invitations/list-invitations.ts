@@ -28,15 +28,31 @@ export class ListInvitations {
       })
   }
 
-  rejectInvitation(invitacion:Invitation):void {
-    /* Llamar al servicio.... */
-    this.toastr.warning("Cuidado", "Sin implementar!");
-    this.toastr.success(`Eliminando invitación de la organización '${invitacion.organization_fk.name}'...`, "Rechazando Invitación!");
+  rejectInvitation(invitationNumber:number):void {    
+    this.invitationsService.rejectInvitation(invitationNumber)
+      .subscribe({
+        next:(v) => {
+          this.toastr.success("Se rechazó correctamente la invitación", "Éxito al rechazar!");
+          // Buscamos la invitación de la lista y, la borramos de ahi
+          const index:number = this.invitations.indexOf(this.invitations.find(x => x.id === invitationNumber) as Invitation);
+          this.invitations.splice(index, 1);
+        },
+        error:(e:HttpErrorResponse) => {
+          this.toastr.error(`Error: ${e.error}`, "Error al rechazar invitación");
+        }
+      });
   }
 
   acceptInvitation(invitacion:Invitation):void {
-    /* Llamar al servicio.... */
-    this.toastr.warning("Cuidado", "Sin implementar!");
-    this.toastr.success(`Aceptando invitación de la organización '${invitacion.organization_fk.name}'...`, "Aceptando Invitación!");
+    this.invitationsService.acceptInvitation(invitacion.id, invitacion)
+      .subscribe({
+        next: (v) => {
+          this.toastr.success("Se aceptó correctamente la invitación", "Éxito al aceptar!");
+          this.toastr.warning("Qué sigue ahora?", "Error de implementación!");
+        },
+        error: (e:HttpErrorResponse) => {
+          this.toastr.error(`Error: ${e.error}`, "Error al aceptar invitación");
+        }
+      });
   }
 }
