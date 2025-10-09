@@ -3,7 +3,8 @@ nav {
     left:0;
     top:0;
 
-    min-height: 170px;
+    max-height: 100px;
+    min-height: 80px;
 
     display: flex;
     flex-direction: row;
@@ -15,7 +16,9 @@ nav {
 #logo-container {
     flex-grow: 4;
     
-    display: inline-flex;
+    display: flex;
+    flex-direction:row;
+    align-items:center;
 
     padding-left: 4rem;
 
@@ -31,7 +34,8 @@ nav {
 }
 .icon-bar {
     width: 20px;
-    height: 80px;
+    height: 9vh;
+    max-height: 60px;
 
     margin: 0 6px 0 6px;
     
