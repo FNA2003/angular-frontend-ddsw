@@ -1,15 +1,15 @@
-<main>
-    <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" action="">
+<form [formGroup]="formLogin" (ngSubmit)="onSubmit()" action="" style="grid-template-columns: 1fr; max-width: 900px; margin: 5rem auto;">
+    <h1>Inicia Sesión para Continuar</h1>
 
-        <span>Inicia sesión para continuar</span>
+    <div class="inputs-container inputs-required">
 
-        <label style="margin-top: 4rem;"><b>(*)</b> Email:</label>
-        <input formControlName="email" type="email" placeholder="Ingresa tu correo electrónico" />
+        <label>(*) Email:</label>
+        <input formControlName="email" type="email" placeholder="Ingresa tu correo electrónico" style="width: 100%;"/>
 
-        <label style="margin-top: 4rem;"><b>(*)</b> Contraseña:</label>
-        <input formControlName="password" type="password" placeholder="Ingresa tu contraseña" />
-
-
-        <button type="submit" style="margin-top: 4rem;">Iniciar Sesión</button>
-    </form>
-</main>
+        <label>(*) Contraseña:</label>
+        <input formControlName="password" type="pasword" placeholder="Ingresa tu contraseña" style="width: 100%;" />
+    
+        
+        <button type="submit" style="width: 100%;">Iniciar Sesión</button>
+    </div>
+</form>
