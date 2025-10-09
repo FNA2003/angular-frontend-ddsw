@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { NotificationsService } from '../../../services/notificationsService';
+import { InvitationsService } from '../../../services/notificationsService';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-send-invitations',
@@ -13,7 +14,7 @@ export class SendInvitations {
   emailControl = new FormControl('', [Validators.required, Validators.email]);
   emailList:string[] = [];
 
-  constructor (private notificationService:NotificationsService, private toastr:ToastrService) {  }
+  constructor (private invitationsService:InvitationsService, private toastr:ToastrService) {  }
 
   addEmail() {
     const email = this.emailControl.value?.trim();
@@ -29,5 +30,16 @@ export class SendInvitations {
 
   sendEmails() {
     this.toastr.warning("Sin implementar todavía", "Error de implementación!");
+    this.invitationsService.sendInvitations(this.emailList)
+      .subscribe({
+        next:(val) => {
+          this.toastr.success("Invitaciones enviadas", "Éxito en el envio!");
+          this.emailList = [];
+          this.emailControl.reset();
+        },
+        error:(e:HttpErrorResponse) => {
+          this.toastr.error(`Errrores: ${e.error.errors}`, "Error al enviar invitaciones!");
+        }
+      })
   }
 }

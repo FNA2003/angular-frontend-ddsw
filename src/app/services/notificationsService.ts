@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Invitation, InvitationsEnum } from '../models/invitation.model';
+import { Invitation } from '../models/invitation.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationsService {
+export class InvitationsService {
   private baseUrl = "http://localhost:8000/api/invitations";
 
   constructor(private http: HttpClient) {  }
 
-  getNotifications():Observable<Invitation[]> {
+  getInvitations():Observable<Invitation[]> {
     return this.http.get(`${this.baseUrl}/list/`) as Observable<Invitation[]>;
   }
-
-  
-  sendNotification(invitate:Invitation):Observable<any> {
-    return this.http.post(`${this.baseUrl}/send/`, invitate);
+  sendInvitations(emails:string[]):Observable<any> {
+    return this.http.post(`${this.baseUrl}/send/`, emails);
   }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../../services/auth';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,7 @@ export class Log_in {
           this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
           this.router.navigate(["/app"]);
         },
-        error:(e:any) => this.toastr.error(e.errors, "Error al inciar sesión!")
+        error:(e:HttpErrorResponse) => this.toastr.error(e.error.error, "Error al inciar sesión!")
       });
   }
 }

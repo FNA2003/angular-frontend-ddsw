@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -40,7 +40,7 @@ export class Register {
         this.toastr.success("Redirigiendo...", "Usuario Registrado!");
         this.router.navigate(["/app"]);
       },
-      error: (response:any) => this.toastr.error(response.errors, "Error al registrar el usuario!")
-    });
+      error: (response:HttpErrorResponse) => this.toastr.error(response.error.email, "Error al registrar el usuario!")
+      });
   }
 }
