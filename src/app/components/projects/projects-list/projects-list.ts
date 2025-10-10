@@ -5,7 +5,8 @@ import { Project } from '../../../models/project.model';
   selector: 'app-projects-list',
   imports: [],
   templateUrl: './projects-list.html',
-  styleUrl: './projects-list.css'
+  styleUrl: './projects-list.css',
+  standalone:true
 })
 export class ProjectsList {
   @Input() projects:Project[] = [];
