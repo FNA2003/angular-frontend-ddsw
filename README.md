@@ -8,9 +8,9 @@
 # 🗂️ Estructura general del proyecto
 
 ## Servicios
-Usamos servicios para llamadas a la API y traer/llevar información hasta/desde los componentes. Además, también los vamos a usar para comunicar componentes (hasta ahora no se implementó, luego se agregará)  
+Usamos servicios para llamadas a la API y traer/llevar información desde/hasta los componentes. Además, también los vamos a usar para comunicar componentes (luego se verá)  
 El criterio para crear servicios es, hasta el día de hoy, debatible. Aún así, trato de numerarlos:
-1. El servicio accede a una misma URI de la API con **1 única** ruta de más.
+1. El servicio usa métodos con acceso a una misma URI de la API con **1 única** ruta distinta.
 2. El servicio es necesario por **más de 1 componente**.
 3. La comunicación de los componentes a través del servicio reduce la complejidad (no se implementan señales, no se 'harcodean' funciones) y el acoplamiento (siempre que sea necesario, se descartan pipes y bindings para usar servicios).
 
