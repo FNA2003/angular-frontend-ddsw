@@ -1,7 +1,21 @@
-<div class="projects-list-container">
-    @for(proyecto of projects; track proyecto.title) {
-        <div><span>Creado el:{{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span></div>
-        <div><span>Título:{{ proyecto.title }}</span></div>
-        <div><span>Descripción:{{ proyecto.description }}</span></div>
-    }
+<div [ngClass]="['main-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+    
+    <div [ngClass]="['title-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+        <span>
+            @switch (projectType) {
+                @case (prEnum.PERSONAL) {PROYECTOS PERSONALES}
+                @case (prEnum.ORGANIZATIONAL) {PROYECTOS ORGANIZACIONALES}
+            }
+        </span>
+    </div>
+    
+    <div class="projects-container">
+        @for(proyecto of projects; track proyecto.title) {
+            <div class="project-container">
+                <div><span>Creado el:{{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span></div>
+                <div><span>Título:{{ proyecto.title }}</span></div>
+                <div><span>Descripción:{{ proyecto.description }}</span></div>
+            </div>
+        }
+    </div>
 </div>

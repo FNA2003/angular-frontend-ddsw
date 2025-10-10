@@ -1,3 +1,51 @@
-.projects-list-container {
+.main-container {
     text-align: center;
+    height: 100%;
+
+    color: var(--main-bg-color);
+}
+.main-container.pers { background-color: var(--fifth-bg-color); }
+.main-container.org { background-color: var(--quaternary-bg-color); }
+
+.title-container > span{
+    display: block;
+    margin: auto;
+    border-radius: 80px;
+    
+    width: 60%;
+    height: 80px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-weight: 800;
+    text-shadow: 
+    -0.1rem -0.1rem 0 var(--text-color),
+    -0.1rem 0.1rem 0 var(--text-color),
+    0.1rem 0.1rem 0 var(--text-color),
+    0.1rem -0.1rem 0 var(--text-color);
+}
+.title-container.org > span  { background-image: url('/proyectos-organizacionales.png'); }
+.title-container.pers > span { background-image: url('/proyectos-personales.png'); }
+
+.projects-container {
+    padding: 1rem 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.project-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    margin: auto;
+    width: 70%;
+    min-height: 400px;
+
+    border-radius: 20px;
+    box-shadow: 0 0 10px 0 var(--text-color);
 }
