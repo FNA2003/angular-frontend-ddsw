@@ -1,20 +1,22 @@
-<!-- Flotante de notificaciones -->
-<button id="notifications-flot" (click)="toggleNotificationsPanel()">
-    <i class="bi bi-bell-fill"></i>
-</button>
+<!--Si podemos ver las invitaciones o invitar veremos lo siguiente-->
+@if (listarNotificaciones || puedeInvitar) {
 
-<!-- Solamente se desplegará el panel si podes invitar o ver invitaciones
- NOTA: En nuestro negocio, sería dos acciones mutuamente excluyentes -->
-@if (mostrarPanel && (listarNotificaciones || puedeInvitar)) {
-  <div class="floating-card">
-    <h3>Invitaciones</h3> <br><hr><hr><br>
+  <!-- Botón flotante para abrir/cerrar el panel -->
+  <button id="notifications-flot" (click)="toggleNotificationsPanel()">
+      <i class="bi bi-bell-fill"></i>
+  </button>
+  <!-- Panel flotante (NOTA; Los componentes deberían ser mutuamente excluyentes) -->
+  @if (mostrarPanel) {
+    <div class="floating-card">
+      <h3>Invitaciones</h3> <br><hr><hr><br>
 
-    @if(listarNotificaciones) {
-      <app-list-invitations></app-list-invitations>
-    }
+      @if(listarNotificaciones) {
+        <app-list-invitations></app-list-invitations>
+      }
 
-    @if(puedeInvitar) {
-      <app-send-invitations></app-send-invitations>
-    }
-</div>
+      @if(puedeInvitar) {
+        <app-send-invitations></app-send-invitations>
+      }
+  </div>
+  }
 }
