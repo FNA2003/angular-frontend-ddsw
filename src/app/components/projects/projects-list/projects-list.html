@@ -1,1 +1,7 @@
-<p>projects-list works!</p>
+<div class="projects-list-container">
+    @for(proyecto of projects; track proyecto.title) {
+        <div><span>Creado el:{{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span></div>
+        <div><span>Título:{{ proyecto.title }}</span></div>
+        <div><span>Descripción:{{ proyecto.description }}</span></div>
+    }
+</div>

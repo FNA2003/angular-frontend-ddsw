@@ -21,7 +21,60 @@ export class MainPage {
   orgProjects:Project[] = [];
   projectType = ProjectEnum;
 
-  constructor(private projectsService:ProjectsService, private toastr:ToastrService) {  }
+  constructor(private projectsService:ProjectsService, private toastr:ToastrService) {
+    const placeholderLista:Project[] = [
+      {
+        title:"Proyecto Org. 1",
+        description:"Esta es una descripción de ejemplo",
+        tipe:ProjectEnum.ORGANIZATIONAL,
+        creation_date:Date.now(),
+        organization_fk:{
+          name:"Organizacion 1"
+        }
+      },
+      {
+        title:"Proyecto Org. 2",
+        description:"Esta es una descripción de ejemplo \
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit",
+        tipe:ProjectEnum.ORGANIZATIONAL,
+        creation_date:Date.now(),
+        organization_fk:{
+          name:"Organizacion 1"
+        }
+      },
+      {
+        title:"Proyecto Personal 1",
+        description:"Hola, este es un proyecto de ejemplo\
+        podés ver cuando se crea en main-page.ts",
+        tipe:ProjectEnum.PERSONAL,
+        creation_date:Date.now()
+      },
+      {
+        title:"Proyecto Personal 2",
+        description:"Hal asm it abat il it abab\
+        podés ver cuando se crea en main-page.ts",
+        tipe:ProjectEnum.PERSONAL,
+        creation_date:Date.now()
+      },
+      {
+        title:"Proyecto Personal 3",
+        description:"Hal asm it abat il it abab\
+        podés ver cuando se crea en main-page.ts",
+        tipe:ProjectEnum.PERSONAL,
+        creation_date:Date.now()
+      },
+      {
+        title:"Proyecto Personal 4",
+        description:"Hal asm it abat il it abab\
+        podés ver cuando se crea en main-page.ts",
+        tipe:ProjectEnum.PERSONAL,
+        creation_date:Date.now()
+      }
+    ];
+
+    this.orgProjects.push(placeholderLista[0], placeholderLista[1]);
+    this.personalProjects.push(placeholderLista[2], placeholderLista[3], placeholderLista[4], placeholderLista[5]);
+  }
 
   ngOnInit() {
     /* Al iniciar el componente, tratamos de 'conseguir' los 
