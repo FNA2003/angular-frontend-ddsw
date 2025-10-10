@@ -20,10 +20,10 @@ Servicio para registrar un usuario o, logearlo. Implementa los siguientes métod
 |--------|-------------|
 |```register(user:User):Observable<any>```|Registra un nuevo usuario|
 |```login(user:{email:string; password:string}):Observable<any>```| Inicia sesión|
-<br />
+
 > Podrá ver que, el método login no toma un usuario, esto se debe a que, se quiere evitar tener que enviar información que el back-end no utilizará.  
 > Por otro lado, como la sesión es manejada con **JWT**, cada componente, cuando verifica el éxito del servicio deberá almacenar en "localstorage" el token para poder ser usado por los _intercepters_...**🚨 Hasta el momento, esta implementación es muy pobre y totalmente vulnerable a ataques XSS (mas aún teniendo en cuenta que no se implementó el token refresh de los JWT), asi que, es recomendable revisar esto para ambientes de deploy🚨**
-<br />
+
 
 ### ```notificationsService.ts```
 Servicio utilizado para el manejo de todo lo relacionado con las invitaciones, vease:
