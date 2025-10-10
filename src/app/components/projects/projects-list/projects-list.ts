@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Project } from '../../../models/project.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './projects-list.css'
 })
 export class ProjectsList {
-
+  @Input() projects:Project[] = [];
 }
