@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Project } from '../../../models/project.model';
+import { Project, ProjectEnum } from '../../../models/project.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -10,4 +10,5 @@ import { Project } from '../../../models/project.model';
 })
 export class ProjectsList {
   @Input() projects:Project[] = [];
+  @Input() projectType:ProjectEnum = ProjectEnum.PERSONAL;
 }
