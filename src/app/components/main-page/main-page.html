@@ -1,5 +1,12 @@
 <app-notifications></app-notifications>
 
+
+<button [routerLink]="['/create_project']">
+    <span>Crear</span>
+    <span> un proyecto </span>
+    <i class="bi bi-plus-lg"></i>
+</button>
+
 <main>
     <app-projects-list [projects]="personalProjects" [projectType]="projectType.PERSONAL"></app-projects-list>
 

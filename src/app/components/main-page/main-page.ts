@@ -7,11 +7,12 @@ import { ProjectsList } from '../projects/projects-list/projects-list';
 import { ProjectsService } from '../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-main-page',
-  imports: [Notifications, ProjectsList],
+  imports: [Notifications, ProjectsList, RouterLink],
   templateUrl: './main-page.html',
   styleUrl: './main-page.css'
 })

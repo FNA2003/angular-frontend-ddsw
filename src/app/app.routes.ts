@@ -6,6 +6,7 @@ import { MainPage } from './components/main-page/main-page';
 import { AuthGuard } from './interceptors/auth-guard';
 import { Logout } from './components/logout/logout';
 import { RedirectIfAuthenticatedGuard } from './interceptors/redirect-if-authenticated';
+import { ProjectForm } from './components/projects/project-form/project-form';
 
 export const routes: Routes = [
     // Desde index hasta abajo
@@ -18,5 +19,6 @@ export const routes: Routes = [
     
     // COMPONENTES PROTEGIDOS (NECESITAMOS LOGGEARNOS)
     {path:"app", component:MainPage, canActivate:[AuthGuard]},
-    {path:"logout", component:Logout, canActivate:[AuthGuard]}
+    {path:"logout", component:Logout, canActivate:[AuthGuard]},
+    {path:"create_project", component:ProjectForm, canActivate:[AuthGuard]},
 ];
