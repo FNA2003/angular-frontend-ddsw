@@ -1,11 +1,12 @@
 <app-notifications></app-notifications>
 
 
-<button [routerLink]="['/create_project']">
-    <span>Crear</span>
-    <span> un proyecto </span>
-    <i class="bi bi-plus-lg"></i>
-</button>
+<div class="new-project-container">
+    <button class="boton-dividido" [routerLink]="['/create_project']">
+        <span class="mitad izquierda">Crear</span>
+        <span class="mitad derecha"> un proyecto <i class="bi bi-plus-lg"></i></span>
+    </button>
+</div>
 
 <main>
     <app-projects-list [projects]="personalProjects" [projectType]="projectType.PERSONAL"></app-projects-list>
