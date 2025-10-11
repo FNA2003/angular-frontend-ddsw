@@ -1,1 +1,42 @@
-<p>project-form works!</p>
+<form [formGroup]="formulario" action="" method="">
+    <div class="form-control type">
+        <label class="required">(*) Tipo de proyecto</label>
+        <select formControlName="tipe">
+            @for (tipo of tiposProyecto; track tipo) {
+                <option value="{{ tipo }}">{{ tipo }}</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-control">
+        <label class="required">(*) Nombre del proyecto</label>
+        <input type="text" formControlName="title" />
+    </div>
+
+    <div class="form-control">
+        <label>Descripción del proyecto</label>
+        <textarea formControlName="description"></textarea>
+    </div>
+
+    @if (contenedorAdmins) {
+        <div>
+            <div class="form-control admin-input-container">
+                <label>Agregar Administradores</label>
+                <input type="text" id="admin-input" placeholder="Username o nombre de equipo" />
+                <button (click)="addAdmin()">Agregar</button>
+            </div>
+            <div class="admin-container">
+                @for (administrador of listaAdministradores; track administrador) {
+                    <div class="admin-item">
+                        <span>{{ administrador }}</span>
+                        <button (click)="removeAdmin(administrador)">Eliminar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div class="submit-btn-container">
+        <button (click)="onSubmit()">Crear Proyecto</button>
+    </div>
+</form>
