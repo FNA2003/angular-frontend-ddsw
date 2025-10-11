@@ -11,10 +11,20 @@
     
     <div class="projects-container">
         @for(proyecto of projects; track proyecto.title) {
-            <div class="project-container">
-                <div><span>Creado el:{{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span></div>
-                <div><span>Título:{{ proyecto.title }}</span></div>
-                <div><span>Descripción:{{ proyecto.description }}</span></div>
+            <div [ngClass]="['project-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+                <div class="project-header">
+                    <span>Proyecto: "{{ proyecto.title }}"</span>
+                    <button class="trash-button"><i class="bi bi-trash"></i></button>
+                </div>
+                <div class="project-info">
+                    <span>Creado el: {{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="project-description">
+                    <span>{{ proyecto.description }}</span>
+                </div>
+                <div style="text-align:center;">
+                    <button>Ir al Proyecto</button>
+                </div>
             </div>
         }
     </div>
