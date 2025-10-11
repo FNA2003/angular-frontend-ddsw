@@ -89,6 +89,9 @@
     font-weight: 500;
     font-size: 1.2rem;
 }
+.project-header button {
+    margin: 0 0.3rem;
+}
 .project-header > * { display: block; }
 
 .project-info { text-align: right; }
