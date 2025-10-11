@@ -14,4 +14,8 @@ export class ProjectsService {
   getProjects():Observable<Project[]> {
     return this.http.get(`${this.baseUrl}/list/`) as Observable<Project[]>;
   }
+
+  makeProject(project:Project):Observable<any> {
+    return this.http.post(`${this.baseUrl}/new/`, project) as Observable<any>;
+  }
 }
