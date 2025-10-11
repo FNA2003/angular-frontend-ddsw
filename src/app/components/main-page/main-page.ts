@@ -24,6 +24,7 @@ export class MainPage {
   constructor(private projectsService:ProjectsService, private toastr:ToastrService) {
     const placeholderLista:Project[] = [
       {
+        id:1,
         title:"Proyecto Org. 1",
         description:"Esta es una descripción de ejemplo",
         tipe:ProjectEnum.ORGANIZATIONAL,
@@ -33,6 +34,7 @@ export class MainPage {
         }
       },
       {
+        id:2,
         title:"Proyecto Org. 2",
         description:"Esta es una descripción de ejemplo \
         Lorem ipsum dolor, sit amet consectetur adipisicing elit",
@@ -43,6 +45,7 @@ export class MainPage {
         }
       },
       {
+        id:3,
         title:"Proyecto Personal 1",
         description:"Hola, este es un proyecto de ejemplo\
         podés ver cuando se crea en main-page.ts",
@@ -50,6 +53,7 @@ export class MainPage {
         creation_date:Date.now()
       },
       {
+        id:4,
         title:"Proyecto Personal 2",
         description:"Hal asm it abat il it abab\
         podés ver cuando se crea en main-page.ts",
@@ -57,6 +61,7 @@ export class MainPage {
         creation_date:Date.now()
       },
       {
+        id:5,
         title:"Proyecto Personal 3",
         description:"Hal asm it abat il it abab\
         podés ver cuando se crea en main-page.ts",
@@ -64,6 +69,7 @@ export class MainPage {
         creation_date:Date.now()
       },
       {
+        id:6,
         title:"Proyecto Personal 4",
         description:"Hal asm it abat il it abab\
         podés ver cuando se crea en main-page.ts",

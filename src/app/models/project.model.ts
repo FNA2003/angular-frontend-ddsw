@@ -6,7 +6,7 @@ export enum ProjectEnum {
 }
 
 export class Project {
-    id?:number;
+    id:number = 0;
     title!:string;
     description?:string;
     organization_fk?:Organization;
