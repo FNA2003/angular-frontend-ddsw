@@ -35,6 +35,14 @@ Servicio utilizado para el manejo de todo lo relacionado con las invitaciones, v
 |```acceptInvitation(invitationNumber:number, invitation:Invitation):Observable<any>```|Si el usuario sin organización envía este método, se acepta la invitación y agrega el usuario a la organización.|
 
 
+### ```projectsService.ts```
+Servicio usado para consultar los proyectos de un usuario y, crear nuevos proyectos. Por el momento, este servicio **⚠️apunta a un endpoint inexistente⚠️** pués, todavía se espera a la implementación de django.
+| Método | Descripción |
+|--------|-------------|
+|```getProjects():Observable<Project[]>```| Método que consultará por una lista de proyectos *personales y organizacionales* del usuario.|
+|```makeProject(project:Project):Observable<any>```| Usado por el componente que creará proyectos para hacer uno nuevo (ese componente deberá encargarse de validar permisos).|
+
+
 ## Interceptors
 Parte de la aplicación que agrega funcionalidad con componentes tipo 'middleware'. No está de más decir que esta sección es una de la más crítica. Paso a describir brevemente que función cumple cada interceptor:
 
@@ -66,6 +74,9 @@ receiver_email?:string; // En la recepción, sería información redundante
 ### ```organization.model.ts```
  ⚠️ Modelo sin terminar, solamente se agregó el campo _'name'_ para mostrarla en la pantalla de invitaciones.  
 
+### ```project.model.ts```
+Modelo "calcado" del modelo del back-end, mismos campos e, incluso, uso de un enum para manejar el tipo de proyecto.
+
 ## Componentes
 Como esta sección es muy volatil, unicamnete voy a listar brevemente cada componente siguiendo un orden de relevancia/uso:
 
@@ -79,13 +90,17 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 8. ```invitations/notifications```: Componente principal en este conjunto, pues mostrará el botón y, su 'carta' si se lo clickea, además, decidirá si se debe listar las invitaciones (usuario sin organización) ó, si se debe renderizar el componente de enviar invitaciones (si se tienen los permisos).
 9. ```invitations/list-notifications```: Como ya se nombró, este mostrará las invitaciones pendientes y, manejará el rechazo o aceptación de las invitaciones.
 10. ```invitations/send-invitations```: Último en este conjunto, este maneja un listado de emails (agregandolos o sacando cada uno mediante inputs) para luego, enviarles una invitación a la organización.
+11. ```projects```: Conjunto de componentes que comprende; el listado de proyectos, la creación de nuevos proyectos y, la modificación de estos.
+12. ```projects/projects-list```: Componente que recibe un listado de proyectos y tipo de estos (personales u organizacionales) para luego listarlos "estilizados" según este último tipo.
+13. ```projects/project-form```: _Componente aún no implementado_. Este componente se usará para el formulario de creación de proyectos.
+14. ```projects/project-card```: _Componente aún no implementado_. Este se usará para editar la información de un proyecto seleccionado.
 
 
 # 📋 Falta Hacer:
-- [ ] Terminar el modelo ```organization``` y agregar el resto de modelos luego del consenso.
-- [ ] En el componente ```invitations/notifications```, mostrar únicamente el botón para ver la carta de Invitaciones si puede enviarlas (está en una organización y, más adelante, si tiene permisos) ó, si no tiene organización para ver las invitaciones recibidas.
+- [ ] El componente ```main-page```, consulta el servicio ```projectsService```, componente que consulta un servicio inexistente pues, falta crear el end-point en el back-end. Por esto, se agregaron placeholders de projects en este componente para previsualizar la vista **⚠️Remover luego⚠️**.
+- [ ] Terminar el modelo ```organization``` y modificar el modelo ```project``` pasado el consenso (agregando también el resto de modelos y modificaciones).
+- [ ] Agregarle al componente ```invitations/notifications``` el "pedido" de información para conocer si el usuario pertenece a una organización (si pertenece, puede invitar personas, sino, puede ver las invitaciones recibidas). Luego, si se agrega la funcionalidad, agregar el pedido de rol para saber si PUEDE enviar invitaciones.
 - [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
-- [ ] Agregar vista de proyectos personales y organizacionales en el componente ```main-page```.
-- [ ] Funcionalidades de punto anterior.
-- [ ] Manejo y vista de tareas dentro de/los componente(s) de la tarea anterior.
+- [ ] Agregar funcionalidades a los proyectos personales y organizacionales en el componente ```main-page -> projects-list```.
+- [ ] Manejo y vista de _tareas_ dentro del proyecto correspondientes.
 - [ ] Calendario de tareas.
