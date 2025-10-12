@@ -62,6 +62,8 @@ Clases que se definieron _casi_ biunivocamente en referencia a los modelos defin
 |**```organization.model.ts```**| _Sin diferencias_|
 |**```project.model.ts```**| _Sin diferencias_ |
 
+> Nota: Una diferencia común que tendrán los modelos de angular y los de django son que, los primeros no manejan Date fields, por esto, cada campo _date_ es del tipo string en Angular.
+
 ## Componentes
 Como esta sección es muy volatil, unicamnete voy a listar brevemente cada componente siguiendo un orden de relevancia/uso:
 
