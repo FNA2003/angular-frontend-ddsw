@@ -41,7 +41,8 @@ Servicio usado para consultar los proyectos de un usuario y, crear nuevos proyec
 |--------|-------------|
 |```getProjects():Observable<Project[]>```| Método que consultará por una lista de proyectos *personales y organizacionales* del usuario.|
 |```makeProject(project:Project):Observable<any>```| Usado por el componente que creará proyectos para hacer uno nuevo (ese componente deberá encargarse de validar permisos).|
-
+|```editProject(project:any, id:number):Observable<any>```| Se trata de alterar algún campo, cualquiera, del proyecto _(id)_ usando el método PATCH |
+|```deleteProject(id:number):Observable<any>```| Borrar un proyecto, si es posible o el usuario puede. |
 
 ## Interceptors
 Parte de la aplicación que agrega funcionalidad con componentes tipo 'middleware'. No está de más decir que esta sección es una de la más crítica. Paso a describir brevemente que función cumple cada interceptor:
@@ -52,30 +53,14 @@ Parte de la aplicación que agrega funcionalidad con componentes tipo 'middlewar
 
 
 ## Modelos
-Clases que se definieron _casi_ biunivocamente en referencia a los modelos definidos en el back-end (con algunas excepciones)
+Clases que se definieron _casi_ biunivocamente en referencia a los modelos definidos en el back-end (con algunas excepciones). Por esto, no veo necesario detallarlas y nombro únicamente sus diferencias:
 
-### ```user.model.ts```
-Modelo que usamos para enviar información propia (login, register o manejo de invitaciones o validación), o también, para "enriquecer" el front-end con información adicional de otros usuarios.
-Podrá ver que, los campos son los mismos a los definidos en django inclusive su nulidad, excepto por:
-```
-id?:number; // Como no vamos a realizar operaciones rest sobre usuarios individuales, no siempre necesitamos los id's
-...
-password?:string; // En este caso, la contraseña puede ser nula para evitar errores en el parseo al recibir información de otro usuario. Pero, la del usuario propia se requerirá siempre que se pida.
-...
-```
-### ```invitation.model.ts```
- Nuevamente, defino un modelo similar al definido con django incluso con su enum para evitar errores. Nuevamente, describo los campos que difieren:
-
-```
-id:number = 0; // Asigno un valor por defecto para evitar definir el campo como posible-nulo
-...
-receiver_email?:string; // En la recepción, sería información redundante
-```
-### ```organization.model.ts```
- ⚠️ Modelo sin terminar, solamente se agregó el campo _'name'_ para mostrarla en la pantalla de invitaciones.  
-
-### ```project.model.ts```
-Modelo "calcado" del modelo del back-end, mismos campos e, incluso, uso de un enum para manejar el tipo de proyecto.
+| Modelo | Cambios Clave |
+|--------|---------------|
+|**```user.model.ts```**| El campo ```id``` puede ser nulo, pués, como no vamos a realizar operaciones REST sobre usuarios individuales, no siempre necesitamos los id's. Y, el campo ```password```, en este caso, la contraseña puede ser nula para evitar errores en el parseo al recibir información de otro usuario. Pero, la propia del usuario se requerirá.|
+|**```invitation.model.ts```**| A ```id:number = 0;``` le asigno un valor por defecto para evitar definir el campo como posible-nulo ya que la información de id si es requerida para operar.Y, ```receiver_email?:string;```, ya que, en la recepción, sería información redundante.|
+|**```organization.model.ts```**| _Sin diferencias_|
+|**```project.model.ts```**| _Sin diferencias_ |
 
 ## Componentes
 Como esta sección es muy volatil, unicamnete voy a listar brevemente cada componente siguiendo un orden de relevancia/uso:
@@ -91,17 +76,27 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 9. ```invitations/list-notifications```: Como ya se nombró, este mostrará las invitaciones pendientes y, manejará el rechazo o aceptación de las invitaciones.
 10. ```invitations/send-invitations```: Último en este conjunto, este maneja un listado de emails (agregandolos o sacando cada uno mediante inputs) para luego, enviarles una invitación a la organización.
 11. ```projects```: Conjunto de componentes que comprende; el listado de proyectos, la creación de nuevos proyectos y, la modificación de estos.
-12. ```projects/projects-list```: Componente que recibe un listado de proyectos y tipo de estos (personales u organizacionales) para luego listarlos "estilizados" según este último tipo.
-13. ```projects/project-form```: _Componente aún no implementado_. Este componente se usará para el formulario de creación de proyectos.
-14. ```projects/project-card```: _Componente aún no implementado_. Este se usará para editar la información de un proyecto seleccionado.
+12. ```projects/projects-list```: Componente que recibe un listado de proyectos y, tipo de estos (personales u organizacionales) para luego listarlos "estilizados" según este último tipo. Este componente, reemplazará la _"carta"_ de cada proyecto al seleccionar el botón de edición por el componente ```projects/edit-project```, además, maneja borrar el proyecto y la re-dirección hacia las tareas de este si se desea acceder al mismo.
+13. ```projects/edit-project```: Componente usado para editar la información de un proyecto seleccionado.
+14. ```projects/project-form```: Componente, con ruta propia, que se usa para la creación de proyectos (ya sean personales u organizacionales).
 
 
 # 📋 Falta Hacer:
+
+## TODO's primarios
 - [ ] El componente ```main-page```, consulta el servicio ```projectsService```, componente que consulta un servicio inexistente pues, falta crear el end-point en el back-end. Por esto, se agregaron placeholders de projects en este componente para previsualizar la vista **⚠️Remover luego⚠️**.
-- [ ] Terminar el modelo ```organization``` y modificar el modelo ```project``` pasado el consenso (agregando también el resto de modelos y modificaciones).
-- [ ] Agregarle al componente ```invitations/notifications``` el "pedido" de información para conocer si el usuario pertenece a una organización (si pertenece, puede invitar personas, sino, puede ver las invitaciones recibidas). Luego, si se agrega la funcionalidad, agregar el pedido de rol para saber si PUEDE enviar invitaciones.
-- [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
-- [ ] Agregar funcionalidades a los proyectos personales y organizacionales en el componente ```main-page -> projects-list```.
-- [ ] Manejo y vista de _tareas_ dentro del proyecto correspondientes.
+- [ ] Implementar el botón _"Ir al Proyecto"_ en el componente ```projects/projects-list``` luego de crear el proyecto que permite visualizar las tareas del proyecto.
+- [ ] Crear organización.
 - [ ] Calendario de tareas.
+- [ ] Administración de organización.
+
+### TODO's secundarios
+- [ ] Agregar y modificar todos los _modelos_ necesarios pasado el consenso.
+- [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
+- [ ] Agregarle al componente ```invitations/notifications``` el "pedido" de información para conocer si el usuario pertenece a una organización (si pertenece, puede invitar personas, sino, puede ver las invitaciones recibidas). Luego, si se agrega la funcionalidad, agregar el pedido de rol para saber si PUEDE enviar invitaciones.
+
+#### TODO's terciarios
+- [ ] Agregar el envío de la lista de administradores en el componente ```projects/projec-form``` luego del consenso y de agregarse los roles y equipos de la organización.
+
+##### TODO's recomendables
 - [ ] Dividir la lógica de projects-list, pues, debería intercambiarse un 'project-card' con ```edit-project``` para evitar repetir bloques y dar más aislamiento.
