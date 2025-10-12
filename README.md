@@ -104,3 +104,4 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 - [ ] Agregar funcionalidades a los proyectos personales y organizacionales en el componente ```main-page -> projects-list```.
 - [ ] Manejo y vista de _tareas_ dentro del proyecto correspondientes.
 - [ ] Calendario de tareas.
+- [ ] Dividir la lógica de projects-list, pues, debería intercambiarse un 'project-card' con ```edit-project``` para evitar repetir bloques y dar más aislamiento.

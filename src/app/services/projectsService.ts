@@ -18,4 +18,11 @@ export class ProjectsService {
   makeProject(project:Project):Observable<any> {
     return this.http.post(`${this.baseUrl}/new/`, project) as Observable<any>;
   }
+
+  editProject(project:any, id:number):Observable<any> {
+    return this.http.patch(`${this.baseUrl}/edit/${id}`, project) as Observable<any>;
+  }
+  deleteProject(id:number):Observable<any> {
+    return this.http.delete(`${this.baseUrl}/edit/${id}`) as Observable<any>;
+  }
 }

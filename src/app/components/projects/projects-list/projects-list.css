@@ -74,7 +74,7 @@
 }
 .project-container button:active { box-shadow: none; }
 
-.trash-button, .trash-button > i {
+.proyect-edit-button, .proyect-edit-button > i {
     width: 32px !important;
     height: 32px;
 
