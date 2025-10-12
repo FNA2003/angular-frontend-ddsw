@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { UserDataService } from '../../../services/user-data-service';
 
 @Component({
   selector: 'app-project-form',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './project-form.css'
 })
 export class ProjectForm {
-  tiposProyecto = Object.values(ProjectEnum);
+  tiposProyecto:ProjectEnum[] = [];
   formulario:FormGroup = new FormGroup({
     tipe:new FormControl("", [Validators.required]),
     title:new FormControl("", [Validators.required, Validators.maxLength(32)]),
@@ -23,13 +24,25 @@ export class ProjectForm {
   contenedorAdmins:boolean = false;
   listaAdministradores:Array<string> = [];
 
-  constructor(private toastr:ToastrService, private projectsService:ProjectsService, private router:Router) {  }
+  constructor(private toastr:ToastrService, 
+              private projectsService:ProjectsService, 
+              private router:Router, 
+              private userData:UserDataService) {  }
 
 
   ngOnInit() {
     this.formulario.get("tipe")?.valueChanges
       .subscribe((tipo:ProjectEnum) => {
         this.contenedorAdmins = tipo === ProjectEnum.ORGANIZATIONAL;
+      });
+    this.userData.user$
+      .subscribe(user => {
+        /* Según si el usuario tiene proyecto o no, se le muestra o no la opcion de agregar proyectos organizacionales */
+        if (!user?.organization_fk) {
+          this.tiposProyecto = [ProjectEnum.PERSONAL];
+        } else {
+          this.tiposProyecto = Object.values(ProjectEnum);
+        }
       });
   }
 

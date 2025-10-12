@@ -8,6 +8,8 @@ import { ProjectsService } from '../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { RouterLink } from '@angular/router';
+import { User } from '../../models/user.model';
+import { UserDataService } from '../../services/user-data-service';
 
 
 @Component({
@@ -21,9 +23,16 @@ export class MainPage {
   orgProjects:Project[] = [];
   projectType = ProjectEnum;
 
-  constructor(private projectsService:ProjectsService, private toastr:ToastrService) {  }
+  currentUser:User|null = null;
+
+  constructor(private projectsService:ProjectsService, private toastr:ToastrService, private userData:UserDataService) {  }
 
   ngOnInit() {
+    /* Cuando iniciamos el componente, necesitamos la información del usuario para saber si tiene organización entre otros */
+    this.userData.user$.subscribe(user => {
+      this.currentUser = user;
+    });
+
     /* Al iniciar el componente, tratamos de 'conseguir' los 
     proyectos para pasarselos a cada 'projects-list' correspondiente */
     this.projectsService.getProjects()

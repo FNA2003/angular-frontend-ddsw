@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { InvitationsService } from '../../../services/notificationsService';
 import { Invitation } from '../../../models/invitation.model';
@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './list-invitations.css'
 })
 export class ListInvitations {
+  @Output() aceptarInvitacionEmmiter = new EventEmitter<Invitation>(); // Emitter para cuando se acepta la invitación
   invitations:Invitation[] = [];
 
   constructor(private toastr:ToastrService, private invitationsService:InvitationsService) {  }
@@ -48,7 +49,7 @@ export class ListInvitations {
       .subscribe({
         next: (v) => {
           this.toastr.success("Se aceptó correctamente la invitación", "Éxito al aceptar!");
-          this.toastr.warning("Qué sigue ahora?", "Error de implementación!");
+          this.aceptarInvitacionEmmiter.emit(invitacion); // Emito para que el padre actualice la data
         },
         error: (e:HttpErrorResponse) => {
           this.toastr.error(`Errores: ${e.error}`, "Error al aceptar invitación");

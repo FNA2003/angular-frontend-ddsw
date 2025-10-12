@@ -11,5 +11,10 @@
 <main>
     <app-projects-list [projects]="personalProjects" [projectType]="projectType.PERSONAL"></app-projects-list>
 
-    <app-projects-list [projects]="orgProjects" [projectType]="projectType.ORGANIZATIONAL"></app-projects-list>
+    <!-- Si tiene organización, mostramos estos proyectos -->
+    @if (currentUser?.organization_fk) {
+        <app-projects-list [projects]="orgProjects" [projectType]="projectType.ORGANIZATIONAL"></app-projects-list>
+    }@else {
+        <p>No tenes organización. En el componente main-page falta agregar los botones para crearla</p>
+    }
 </main>
