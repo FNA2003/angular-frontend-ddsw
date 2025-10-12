@@ -52,6 +52,8 @@
     font-weight: 400;
     font-size: 1.1rem;
 }
+.project-container::selection { color: var(--text-color); }
+
 .project-container.org { background-color: var(--sixth-bg-color); }
 .project-container.org button {background-color: var(--tertiary-bg-color);}
 
