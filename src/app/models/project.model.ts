@@ -11,5 +11,5 @@ export class Project {
     description?:string;
     organization_fk?:Organization;
     tipe!:ProjectEnum;
-    creation_date!:number;
+    creation_date!:string;
 }

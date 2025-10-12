@@ -54,7 +54,7 @@ export class ProjectForm {
     }
 
     const proyecto = this.formulario.getRawValue() as Project;
-    proyecto.creation_date = Date.now();
+    proyecto.creation_date = new Date().toISOString().split('T')[0];
 
     this.toastr.warning("El servicio no funciona, además, es necesario redirigir al componente de este proyecto y, si se selecciona el proyecto organizacional, enviar los administradores", "Error de implementación!");
 
