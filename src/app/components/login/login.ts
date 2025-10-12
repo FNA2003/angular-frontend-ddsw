@@ -35,7 +35,7 @@ export class Log_in {
           this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
           this.router.navigate(["/app"]);
         },
-        error:(e:HttpErrorResponse) => this.toastr.error(e.error.error, "Error al inciar sesión!")
+        error:(e:HttpErrorResponse) => this.toastr.error(`Errores: ${e.error}`, "Error al inciar sesión!")
       });
   }
 }

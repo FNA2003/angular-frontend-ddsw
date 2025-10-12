@@ -37,7 +37,7 @@ export class SendInvitations {
           this.emailControl.reset();
         },
         error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errrores: ${e.error.error}`, "Error al enviar invitaciones!");
+          this.toastr.error(`Errrores: ${e.error}`, "Error al enviar invitaciones!");
         }
       })
   }

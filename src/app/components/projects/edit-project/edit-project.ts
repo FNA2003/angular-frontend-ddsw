@@ -50,7 +50,7 @@ export class EditProject {
           this.save.emit(p);
         },
         error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error.errors}`, "Error al editar proyecto!");
+          this.toastr.error(`Errores: ${e.error}`, "Error al editar proyecto!");
         }
       });
   }

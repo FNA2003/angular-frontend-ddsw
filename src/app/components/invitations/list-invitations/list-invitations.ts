@@ -23,7 +23,7 @@ export class ListInvitations {
           this.invitations = [... data.data];
         },
         error: (data:HttpErrorResponse) => 
-          this.toastr.error(`Errores: ${data.error.errors}`, 
+          this.toastr.error(`Errores: ${data.error}`, 
             "Error de acceso de invitaciones!")
       })
   }
@@ -38,7 +38,7 @@ export class ListInvitations {
           this.invitations.splice(index, 1);
         },
         error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Error: ${e.error}`, "Error al rechazar invitación");
+          this.toastr.error(`Errores: ${e.error}`, "Error al rechazar invitación");
         }
       });
   }
@@ -51,7 +51,7 @@ export class ListInvitations {
           this.toastr.warning("Qué sigue ahora?", "Error de implementación!");
         },
         error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Error: ${e.error}`, "Error al aceptar invitación");
+          this.toastr.error(`Errores: ${e.error}`, "Error al aceptar invitación");
         }
       });
   }

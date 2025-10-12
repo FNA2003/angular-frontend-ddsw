@@ -38,7 +38,7 @@ export class ProjectsList {
           this.projects.splice(this.projects.indexOf(project), 1);
         },
         error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Error: ${e.error.errors}`, "Error al tratar de eliminar el proyecto");
+          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de eliminar el proyecto");
         }
       });
   }  

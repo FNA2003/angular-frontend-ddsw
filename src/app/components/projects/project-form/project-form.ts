@@ -66,7 +66,7 @@ export class ProjectForm {
           this.router.navigate(["/app"]);
         },
         error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error.errors}`, "Error al crear el proyecto!");
+          this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
         }
       })
   }

@@ -40,7 +40,7 @@ export class Register {
         this.toastr.success("Redirigiendo...", "Usuario Registrado!");
         this.router.navigate(["/app"]);
       },
-      error: (response:HttpErrorResponse) => this.toastr.error(response.error.email, "Error al registrar el usuario!")
+      error: (response:HttpErrorResponse) => this.toastr.error(`Errores: ${response.error}`, "Error al registrar el usuario!")
       });
   }
 }
