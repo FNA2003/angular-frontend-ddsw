@@ -60,7 +60,7 @@ Clases que se definieron _casi_ biunivocamente en referencia a los modelos defin
 |**```user.model.ts```**| El campo ```id``` puede ser nulo, pués, como no vamos a realizar operaciones REST sobre usuarios individuales, no siempre necesitamos los id's. Y, el campo ```password```, en este caso, la contraseña puede ser nula para evitar errores en el parseo al recibir información de otro usuario. Pero, la propia del usuario se requerirá.|
 |**```invitation.model.ts```**| A ```id:number = 0;``` le asigno un valor por defecto para evitar definir el campo como posible-nulo ya que la información de id si es requerida para operar.Y, ```receiver_email?:string;```, ya que, en la recepción, sería información redundante.|
 |**```organization.model.ts```**| _Sin diferencias_|
-|**```project.model.ts```**| _Sin diferencias_ |
+|**```project.model.ts```**| No se agrega el campo ```creator_fk```, pues este lo manejará django |
 
 > Nota: Una diferencia común que tendrán los modelos de angular y los de django son que, los primeros no manejan Date fields, por esto, cada campo _date_ es del tipo string en Angular.
 

@@ -4,6 +4,7 @@ import { Project, ProjectEnum } from '../../../models/project.model';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-form',
@@ -22,7 +23,7 @@ export class ProjectForm {
   contenedorAdmins:boolean = false;
   listaAdministradores:Array<string> = [];
 
-  constructor(private toastr:ToastrService, private projectsService:ProjectsService) {  }
+  constructor(private toastr:ToastrService, private projectsService:ProjectsService, private router:Router) {  }
 
 
   ngOnInit() {
@@ -56,14 +57,13 @@ export class ProjectForm {
     const proyecto = this.formulario.getRawValue() as Project;
     proyecto.creation_date = new Date().toISOString().split('T')[0];
 
-    this.toastr.warning("El servicio no funciona, además, es necesario redirigir al componente de este proyecto y, si se selecciona el proyecto organizacional, enviar los administradores", "Error de implementación!");
-
     this.projectsService.makeProject(proyecto)
       .subscribe({
         next:(val) => {
           this.formulario.reset();
           this.listaAdministradores = [];
           this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
+          this.router.navigate(["/app"]);
         },
         error:(e:HttpErrorResponse) => {
           this.toastr.error(`Errores: ${e.error.errors}`, "Error al crear el proyecto!");
