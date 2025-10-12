@@ -2,5 +2,5 @@ export class Organization {
     id!:number;
     name!:string;
     description?:string;
-    creation_date?:number;
+    creation_date?:string;
 }

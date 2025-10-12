@@ -12,5 +12,5 @@ export class Invitation {
     receiver_email?:string; // En la recepción, puede ser null, la información sería irrelevante, pues, se recibe al mismo usuario
     sender_fk!:User;
     state!:InvitationsEnum;
-    send_date!:number;
+    send_date!:string;
 }
