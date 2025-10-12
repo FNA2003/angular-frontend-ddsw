@@ -86,7 +86,6 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 # 📋 Falta Hacer:
 
 ## TODO's primarios
-- [ ] El componente ```main-page```, consulta el servicio ```projectsService```, componente que consulta un servicio inexistente pues, falta crear el end-point en el back-end. Por esto, se agregaron placeholders de projects en este componente para previsualizar la vista **⚠️Remover luego⚠️**.
 - [ ] Implementar el botón _"Ir al Proyecto"_ en el componente ```projects/projects-list``` luego de crear el proyecto que permite visualizar las tareas del proyecto.
 - [ ] Crear organización.
 - [ ] Calendario de tareas.
@@ -94,11 +93,12 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 
 ### TODO's secundarios
 - [ ] Agregar y modificar todos los _modelos_ necesarios pasado el consenso.
-- [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
 - [ ] Agregarle al componente ```invitations/notifications``` el "pedido" de información para conocer si el usuario pertenece a una organización (si pertenece, puede invitar personas, sino, puede ver las invitaciones recibidas). Luego, si se agrega la funcionalidad, agregar el pedido de rol para saber si PUEDE enviar invitaciones.
+- [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
 
 #### TODO's terciarios
 - [ ] Agregar el envío de la lista de administradores en el componente ```projects/projec-form``` luego del consenso y de agregarse los roles y equipos de la organización.
 
 ##### TODO's recomendables
 - [ ] Dividir la lógica de projects-list, pues, debería intercambiarse un 'project-card' con ```edit-project``` para evitar repetir bloques y dar más aislamiento.
+- [ ] En cada consulta a los servicios a las API's, se imprime el ```e:HttpErrorElement``` sin parsearlo... Esto es un error pero para la lecutar. Se recomienda detectar cuando el error es una string u objeto (por si retorna algo como; _serializer.errors_).
