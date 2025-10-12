@@ -77,7 +77,7 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 10. ```invitations/send-invitations```: Último en este conjunto, este maneja un listado de emails (agregandolos o sacando cada uno mediante inputs) para luego, enviarles una invitación a la organización.
 11. ```projects```: Conjunto de componentes que comprende; el listado de proyectos, la creación de nuevos proyectos y, la modificación de estos.
 12. ```projects/projects-list```: Componente que recibe un listado de proyectos y, tipo de estos (personales u organizacionales) para luego listarlos "estilizados" según este último tipo. Este componente, reemplazará la _"carta"_ de cada proyecto al seleccionar el botón de edición por el componente ```projects/edit-project```, además, maneja borrar el proyecto y la re-dirección hacia las tareas de este si se desea acceder al mismo.
-13. ```projects/edit-project```: Componente usado para editar la información de un proyecto seleccionado.
+13. ```projects/edit-project```: Componente usado para editar la información de un proyecto seleccionado. _Nota;_ Este usa eventEmmitter's para comunicarle a ```projects-list``` si el cambio en el proyecto fue aceptado por el back-end.
 14. ```projects/project-form```: Componente, con ruta propia, que se usa para la creación de proyectos (ya sean personales u organizacionales).
 
 
