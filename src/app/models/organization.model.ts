@@ -1,4 +1,6 @@
 export class Organization {
-    /* TODO: Agregar campos de la organización */
+    id!:number;
     name!:string;
+    description?:string;
+    creation_date?:number;
 }

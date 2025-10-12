@@ -30,7 +30,9 @@ export class MainPage {
         tipe:ProjectEnum.ORGANIZATIONAL,
         creation_date:Date.now(),
         organization_fk:{
-          name:"Organizacion 1"
+          id:1,
+          name:"Organizacion 1",
+          description:"Organización de placeholder"
         }
       },
       {
@@ -41,7 +43,9 @@ export class MainPage {
         tipe:ProjectEnum.ORGANIZATIONAL,
         creation_date:Date.now(),
         organization_fk:{
-          name:"Organizacion 1"
+          id:1,
+          name:"Organizacion 1",
+          description:"Organización de placeholder"
         }
       },
       {
