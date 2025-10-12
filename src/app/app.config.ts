@@ -7,6 +7,7 @@ import { provideToastr, ToastrService } from 'ngx-toastr';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { UserDataService } from './services/user-data-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +20,8 @@ export const appConfig: ApplicationConfig = {
       (req, next) => {
         const router = inject(Router);
         const toastr = inject(ToastrService);
-        const interceptor = new AuthInterceptor(router, toastr);
+        const uData = inject(UserDataService);
+        const interceptor = new AuthInterceptor(router, toastr, uData);
         return interceptor.handle(req, next);
       }
     ])),
