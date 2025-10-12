@@ -36,13 +36,23 @@ Servicio utilizado para el manejo de todo lo relacionado con las invitaciones, v
 
 
 ### ```projectsService.ts```
-Servicio usado para consultar los proyectos de un usuario y, crear nuevos proyectos. Por el momento, este servicio **⚠️apunta a un endpoint inexistente⚠️** pués, todavía se espera a la implementación de django.
+Servicio usado para consultar los proyectos de un usuario y, crear nuevos proyectos.
 | Método | Descripción |
 |--------|-------------|
 |```getProjects():Observable<Project[]>```| Método que consultará por una lista de proyectos *personales y organizacionales* del usuario.|
 |```makeProject(project:Project):Observable<any>```| Usado por el componente que creará proyectos para hacer uno nuevo (ese componente deberá encargarse de validar permisos).|
 |```editProject(project:any, id:number):Observable<any>```| Se trata de alterar algún campo, cualquiera, del proyecto _(id)_ usando el método PATCH |
 |```deleteProject(id:number):Observable<any>```| Borrar un proyecto, si es posible o el usuario puede. |
+
+
+### ```userDataService.ts```
+Servicio que toma o almacena la información del usuario en localStorage para que pueda ser pedida o modificada (al confirmarse su alteración en el back-end) para alterar lo que mostrarán los componentes. Por el momento, solamente almacena el objeto _User_ pero, **se plantea que este también tome y almacene permisos para que puedan ser consultados luego.**
+| Método | Descripción |
+|--------|-------------|
+|```updateUser(user:User)```| Método que actualiza la información del usuario en localStorage y avisa a los subscriptores de __user$__ que hubo un cambio |
+|```clearUser()```| Método que usarán interceptors para anular los datos de la sesión. ```component/logout``` manejara el eliminar la información por su cuenta. |
+
+
 
 ## Interceptors
 Parte de la aplicación que agrega funcionalidad con componentes tipo 'middleware'. No está de más decir que esta sección es una de la más crítica. Paso a describir brevemente que función cumple cada interceptor:
@@ -72,15 +82,15 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 3. ```register```: Componente para la alta de usuarios, este usa el  ```services/auth.ts``` y **ReactiveForms**.
 4. ```login```: Similar al componente anterior, pero para el inicio de sesión de usuarios.
 5. ```logout```: _"Lazy-component"_ se usa únicamente eliminar la sesión y redirigir a la ruta de ```home``` sin agregarle funciones al ```navbar```.
-6. ```main-page```: A partir de este componente, todos los siguientes necesetirán autentificación para usarlos. Este componente, renderizará  conjunto de componentes de proyectos e invitaciones.
+6. ```main-page```: A partir de este componente, todos los siguientes necesetirán autentificación para usarlos. Este componente, renderizará  conjunto de componentes de proyectos e invitaciones. Este componente usa el servicio de 'userdata' para saber si mostrará proyectos organizacionales o la opción para crear organización.
 7. ````invitations````: Conjunto de componentes que renderizarán (si se cumplen los requisitos) un botón para abrir la vista de invitaciones pendientes o para el envió de invitaciones (mutuamente excluyentes).
-8. ```invitations/notifications```: Componente principal en este conjunto, pues mostrará el botón y, su 'carta' si se lo clickea, además, decidirá si se debe listar las invitaciones (usuario sin organización) ó, si se debe renderizar el componente de enviar invitaciones (si se tienen los permisos).
-9. ```invitations/list-notifications```: Como ya se nombró, este mostrará las invitaciones pendientes y, manejará el rechazo o aceptación de las invitaciones.
+8. ```invitations/notifications```: Componente principal en este conjunto, pues mostrará el botón y, su 'carta' si se lo clickea, además, decidirá si se debe listar las invitaciones (usuario sin organización) ó, si se debe renderizar el componente de enviar invitaciones (si se tienen los permisos). Para saber si debe listar las notificaciones o mostrar el formalario, hace uso de la información de usario que provee el servicio 'userdata'.
+9. ```invitations/list-notifications```: Como ya se nombró, este mostrará las invitaciones pendientes y, manejará el rechazo o aceptación de las invitaciones. Una vez aceptada una invitación y **confirmada por el back-end**, emitirá el objeto invitación para que ```invitations/notifications``` actualice el 'userdata'.
 10. ```invitations/send-invitations```: Último en este conjunto, este maneja un listado de emails (agregandolos o sacando cada uno mediante inputs) para luego, enviarles una invitación a la organización.
 11. ```projects```: Conjunto de componentes que comprende; el listado de proyectos, la creación de nuevos proyectos y, la modificación de estos.
 12. ```projects/projects-list```: Componente que recibe un listado de proyectos y, tipo de estos (personales u organizacionales) para luego listarlos "estilizados" según este último tipo. Este componente, reemplazará la _"carta"_ de cada proyecto al seleccionar el botón de edición por el componente ```projects/edit-project```, además, maneja borrar el proyecto y la re-dirección hacia las tareas de este si se desea acceder al mismo.
 13. ```projects/edit-project```: Componente usado para editar la información de un proyecto seleccionado. _Nota;_ Este usa eventEmmitter's para comunicarle a ```projects-list``` si el cambio en el proyecto fue aceptado por el back-end.
-14. ```projects/project-form```: Componente, con ruta propia, que se usa para la creación de proyectos (ya sean personales u organizacionales).
+14. ```projects/project-form```: Componente, con ruta propia, que se usa para la creación de proyectos (ya sean personales u organizacionales y, para saber el usuario puede hacer uso de este, usa el servicio de 'userData').
 
 
 # 📋 Falta Hacer:
@@ -93,12 +103,8 @@ Como esta sección es muy volatil, unicamnete voy a listar brevemente cada compo
 
 ### TODO's secundarios
 - [ ] Agregar y modificar todos los _modelos_ necesarios pasado el consenso.
-- [ ] Agregarle al componente ```invitations/notifications``` el "pedido" de información para conocer si el usuario pertenece a una organización (si pertenece, puede invitar personas, sino, puede ver las invitaciones recibidas). Luego, si se agrega la funcionalidad, agregar el pedido de rol para saber si PUEDE enviar invitaciones.
-- [ ] En el componente ```invitations/list-invitations```, agregar el comportamiento correspondiente al aceptar una invitación luego de que el handler sea exitoso.
-
-#### TODO's terciarios
 - [ ] Agregar el envío de la lista de administradores en el componente ```projects/projec-form``` luego del consenso y de agregarse los roles y equipos de la organización.
 
-##### TODO's recomendables
+#### TODO's recomendables
 - [ ] Dividir la lógica de projects-list, pues, debería intercambiarse un 'project-card' con ```edit-project``` para evitar repetir bloques y dar más aislamiento.
 - [ ] En cada consulta a los servicios a las API's, se imprime el ```e:HttpErrorElement``` sin parsearlo... Esto es un error pero para la lecutar. Se recomienda detectar cuando el error es una string u objeto (por si retorna algo como; _serializer.errors_).
