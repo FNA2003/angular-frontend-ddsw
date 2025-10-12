@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../../services/auth';
 import { HttpErrorResponse } from '@angular/common/http';
+import { UserDataService } from '../../services/user-data-service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class Log_in {
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private authService:Auth, private toastr:ToastrService, private router:Router) {  }
+  constructor(private authService:Auth, private toastr:ToastrService, private router:Router, private userData:UserDataService) {  }
 
   onSubmit() {
     if (this.formLogin.invalid) {
@@ -33,6 +34,9 @@ export class Log_in {
         next: (response:any) => { 
           localStorage.setItem("acc_tk", response.access);
           this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
+
+          this.userData.updateUser(response.user);
+
           this.router.navigate(["/app"]);
         },
         error:(e:HttpErrorResponse) => this.toastr.error(`Errores: ${e.error}`, "Error al inciar sesión!")

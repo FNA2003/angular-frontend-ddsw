@@ -11,6 +11,7 @@ export class Logout {
 
   ngOnInit() {
     localStorage.removeItem("acc_tk");
+    localStorage.removeItem("usr_o");
     this.router.navigate(["/home"]);
   }
 }

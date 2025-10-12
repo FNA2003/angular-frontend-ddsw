@@ -5,6 +5,7 @@ import { User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { UserDataService } from '../../services/user-data-service';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class Register {
     last_name: new FormControl(''),
   });
 
-  constructor(private toastr: ToastrService, private authService: Auth, private router:Router) {  }
+  constructor(private toastr: ToastrService, private authService: Auth, private router:Router, private userData:UserDataService) {  }
 
 
   /* Método que se llama una vez que se 'submitea' algo */
@@ -38,6 +39,9 @@ export class Register {
       next: (response:any) => { 
         localStorage.setItem("acc_tk", response.access);
         this.toastr.success("Redirigiendo...", "Usuario Registrado!");
+
+        this.userData.updateUser(response.user);
+
         this.router.navigate(["/app"]);
       },
       error: (response:HttpErrorResponse) => this.toastr.error(`Errores: ${response.error}`, "Error al registrar el usuario!")
