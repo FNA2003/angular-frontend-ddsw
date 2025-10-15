@@ -1,0 +1,13 @@
+<form 
+    [formGroup]="registerForm" 
+    action="" 
+    method="">
+
+    <div class="form-control type">
+        <label class="required">(*) Nombre del proyecto</label>
+        <input type="text" formControlName="name"/>
+        <button (click)="onSubmit()" type="submit" class="button">Crear organización</button>
+    </div>
+
+
+</form>

@@ -1,6 +1,5 @@
 <app-notifications></app-notifications>
 
-
 <div class="new-project-container">
     <button class="boton-dividido" [routerLink]="['/create_project']">
         <span class="mitad izquierda">Crear</span>
@@ -9,12 +8,31 @@
 </div>
 
 <main>
-    <app-projects-list [projects]="personalProjects" [projectType]="projectType.PERSONAL"></app-projects-list>
+    <app-projects-list 
+    [projects]="personalProjects" 
+    [projectType]="projectType.PERSONAL">
+    </app-projects-list>
 
     <!-- Si tiene organización, mostramos estos proyectos -->
     @if (currentUser?.organization_fk) {
-        <app-projects-list [projects]="orgProjects" [projectType]="projectType.ORGANIZATIONAL"></app-projects-list>
+        <app-projects-list 
+        [projects]="orgProjects" 
+        [projectType]="projectType.ORGANIZATIONAL">
+        </app-projects-list>
+
+    <!-- Sino, que cree o se una a una organización -->
     }@else {
-        <p>No tenes organización. En el componente main-page falta agregar los botones para crearla</p>
+    <section class="org-empty">
+        
+        <app-projects-list 
+            [projectType]="projectType.ORGANIZATIONAL">
+        </app-projects-list>
+
+        <button class="boton-dividido" [routerLink]="['/create_organization']">
+            <span class="mitad derecha"> Crear organización <i class="bi bi-plus-lg"></i></span>
+        </button>
+
+
+    </section>
     }
 </main>
