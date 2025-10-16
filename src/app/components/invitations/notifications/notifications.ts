@@ -46,6 +46,6 @@ export class Notifications {
     
     this.userData.updateUser(nUsr);
 
-    this.router.navigate(["/app"]);
+    window.location.reload();
   }
 }
