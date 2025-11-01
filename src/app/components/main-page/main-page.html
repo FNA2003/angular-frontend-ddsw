@@ -23,16 +23,9 @@
     <!-- Sino, que cree o se una a una organización -->
     }@else {
     <section class="org-empty">
-        
         <app-projects-list 
             [projectType]="projectType.ORGANIZATIONAL">
         </app-projects-list>
-
-        <button class="boton-dividido" [routerLink]="['/create_organization']">
-            <span class="mitad derecha"> Crear organización <i class="bi bi-plus-lg"></i></span>
-        </button>
-
-
     </section>
     }
 </main>

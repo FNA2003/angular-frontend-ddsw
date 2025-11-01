@@ -17,33 +17,17 @@ import { Organization } from '../../../models/organization.model';
 
 export class OrganizationForm {
   
-  registerForm!: FormGroup;
-
-  constructor(private fb: FormBuilder,
-              private toastr: ToastrService, 
-              private organizationsService:OrganizationsService, 
-              private router:Router, 
-              private userData:UserDataService
-  ){ // Atributo "form builder"
-    this.registerForm = this.fb.group({
-    name: ''
+  registerForm: FormGroup = new FormGroup({
+    name: new FormControl("", Validators.required)
   });
-  } 
 
-  name: string = '';
-  
-  ngOnInit(){
-    this.registerForm.get("name")?.valueChanges
-      .subscribe((nombre: string) => {
-        this.name = nombre
-      })
-    };
-  
+  constructor(private toastr: ToastrService, 
+              private organizationsService:OrganizationsService, 
+              private router:Router
+  ){  }
 
   onSubmit() {
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value());
-      
       this.toastr.warning("Cerciorese de que todos los campos requeridos estén completos y en el formato pedido.", "Error en los campos!");
       return;
     }
@@ -55,6 +39,7 @@ export class OrganizationForm {
       .subscribe({
         next:(val) => {
           this.registerForm.value();
+          this.registerForm.reset();
           this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
           this.router.navigate(["/app"]);
         },
@@ -63,9 +48,4 @@ export class OrganizationForm {
         }
       })
   }
-  
-
 }
-
-
-

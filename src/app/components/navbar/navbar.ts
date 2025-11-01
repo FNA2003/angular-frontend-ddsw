@@ -27,7 +27,7 @@ export class NavbarComponent {
   /* Links de la página principal, luego del loggeo */
   public appLinks:LinkI[] = [
     { label:"Inicio",        path:"app",      enabled:true, icon:"bi bi-house-fill" },
-    { label:"Agenda",        path:"",         enabled:true, icon:"bi bi-calendar-fill" },
+    //{ label:"Agenda",        path:"",         enabled:true, icon:"bi bi-calendar-fill" },
     { label:"Cerrar Sesión", path:"logout",   enabled:true, icon:"bi bi-box-arrow-right" },
   ];
   

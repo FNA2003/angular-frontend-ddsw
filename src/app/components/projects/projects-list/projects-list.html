@@ -39,5 +39,19 @@
                 </div>
             }
         }
+
+        <!-- Acá verificamos si no hay proyectos y si el proyecto es organizacional -->
+        @empty {
+            @if (projectType == prEnum.ORGANIZATIONAL) {
+                <button
+                    class="btn-crear-organizacion"
+                    [routerLink]="['/create_organization']">
+
+                    Crear organización <i class="bi bi-plus-lg"></i>
+                </button>
+            }
+        }
+
+
     </div>
 </div>
