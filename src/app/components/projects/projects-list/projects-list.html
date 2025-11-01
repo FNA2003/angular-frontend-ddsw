@@ -42,7 +42,7 @@
 
         <!-- Acá verificamos si no hay proyectos y si el proyecto es organizacional -->
         @empty {
-            @if (projectType == prEnum.ORGANIZATIONAL) {
+            @if (projectType == prEnum.ORGANIZATIONAL && user?.organization_fk == null) {
                 <button
                     class="btn-crear-organizacion"
                     [routerLink]="['/create_organization']">

@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { UserDataService } from '../../../services/user-data-service';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-projects-list',
@@ -18,11 +20,21 @@ export class ProjectsList {
   @Input() projects:Project[] = [];
   @Input() projectType:ProjectEnum = ProjectEnum.PERSONAL;
 
+  user?:User;
+
   prEnum = ProjectEnum;
   editProjectId:number|null = null;
 
   constructor(private toastr:ToastrService, 
-              private projectService:ProjectsService) {  }
+              private projectService:ProjectsService,
+              private userData:UserDataService) { }
+
+  ngOnInit() {
+
+    this.userData.user$.subscribe(usr => {
+      this.user = usr as User;
+    });
+  }
 
   /* Atrapo el emmiter de 'edit-project' para mostrar el proyecto actualizado sin volver a consultar el back */
   onSave(updatedProject:Project) {
