@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../../models/user.model';
+import { RegisterPayload, User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
@@ -18,12 +18,12 @@ export class Register {
   userForm = new FormGroup({
     username: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
-    first_name: new FormControl(''),
-    last_name: new FormControl(''),
+    password: new FormControl('', Validators.required)
   });
 
-  constructor(private toastr: ToastrService, private authService: Auth, private router:Router, private userData:UserDataService) {  }
+  constructor(private toastr: ToastrService, 
+              private authService: Auth, 
+              private router:Router) {  }
 
 
   /* Método que se llama una vez que se 'submitea' algo */
@@ -33,18 +33,17 @@ export class Register {
       return;
     }
 
-    const user: User = this.userForm.getRawValue() as User;
+    const user: RegisterPayload = this.userForm.getRawValue() as RegisterPayload;
 
     this.authService.register(user).subscribe({
       next: (response:any) => { 
         localStorage.setItem("acc_tk", response.access);
         this.toastr.success("Redirigiendo...", "Usuario Registrado!");
-
-        this.userData.updateUser(response.user);
-
         this.router.navigate(["/app"]);
       },
-      error: (response:HttpErrorResponse) => this.toastr.error(`Errores: ${response.error}`, "Error al registrar el usuario!")
-      });
+      error: (response:HttpErrorResponse) => {
+        this.toastr.error(`Errores: ${response.error}`, "Error al registrar el usuario!")
+      }
+    });
   }
 }

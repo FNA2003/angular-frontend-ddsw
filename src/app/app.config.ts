@@ -20,8 +20,7 @@ export const appConfig: ApplicationConfig = {
       (req, next) => {
         const router = inject(Router);
         const toastr = inject(ToastrService);
-        const uData = inject(UserDataService);
-        const interceptor = new AuthInterceptor(router, toastr, uData);
+        const interceptor = new AuthInterceptor(router, toastr);
         return interceptor.handle(req, next);
       }
     ])),

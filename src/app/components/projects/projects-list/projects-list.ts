@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Project, ProjectEnum } from '../../../models/project.model';
+import { Project } from '../../../models/project.model';
 import { DatePipe, NgClass } from '@angular/common';
 import { EditProject } from '../edit-project/edit-project';
 import { ToastrService } from 'ngx-toastr';
