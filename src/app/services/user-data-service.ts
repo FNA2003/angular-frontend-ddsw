@@ -1,29 +1,25 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { ApiGateway } from './api-gateway';
+import { Organization } from '../models/organization.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataService {
-  userSubjetc = new BehaviorSubject<User|null>(null);
-  user$ = this.userSubjetc.asObservable();
 
-  constructor() {
-    const storedUser = localStorage.getItem("usr_o");
+  constructor(private apiGateway:ApiGateway) {  }
 
-    if (storedUser) {
-      this.userSubjetc.next(JSON.parse(storedUser));
-    }
+  // Acá solicitamos nuestros datos del usuario (modelo User)
+  getUserObject():Observable<User> {
+    return this.apiGateway.get("auth/me");
   }
   
-  updateUser(user:User) {
-    this.userSubjetc.next(user);
-    localStorage.setItem("usr_o", JSON.stringify(user));
-  }
-  clearUser() {
-    this.userSubjetc.next(null);
-    localStorage.removeItem("usr_o");
+  // Acá solicitamos la información de la lista de las organizaciones a las que
+  // pertenece el usuario (para esta aplicación la lista tiene longitud 1 ó 0)
+  getOrganizationObject():Observable<Organization[]> {
+    return this.apiGateway.get("organizations/");
   }
 }

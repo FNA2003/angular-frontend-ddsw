@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { UserDataService } from '../services/user-data-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RedirectIfAuthenticatedGuard implements CanActivate {
-  constructor(private router: Router, private userData:UserDataService) {}
+  constructor(private router: Router) {}
 
   canActivate(): boolean {
     const token = localStorage.getItem('acc_tk');
@@ -20,7 +19,6 @@ export class RedirectIfAuthenticatedGuard implements CanActivate {
     const now = Math.floor(Date.now() / 1000);
     if (payload.exp && payload.exp < now) {
       localStorage.removeItem("acc_tk");
-      this.userData.clearUser();
       return true;
     }
     

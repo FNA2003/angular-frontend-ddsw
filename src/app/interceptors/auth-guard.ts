@@ -1,14 +1,13 @@
 import { Injectable } from "@angular/core";
 import { CanActivate, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
-import { UserDataService } from "../services/user-data-service";
 
 /*
  * Middleware para 'proteger' rutas que requiren acceso
  */
 @Injectable({ providedIn:"root" })
 export class AuthGuard implements CanActivate {
-    constructor(private router:Router, private toastr:ToastrService, private userData: UserDataService) {  }
+    constructor(private router:Router, private toastr:ToastrService) {  }
 
     canActivate():boolean {
         const token = localStorage.getItem("acc_tk");
@@ -28,7 +27,6 @@ export class AuthGuard implements CanActivate {
         if (payload.exp && payload.exp < now) {
             this.toastr.error("Tu sesión se venció", "Ruta protegida!");
             localStorage.removeItem("acc_tk");
-            this.userData.clearUser();
             this.router.navigate(["/home"]);
             return false;
         }

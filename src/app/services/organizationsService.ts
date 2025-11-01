@@ -1,28 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Organization } from '../models/organization.model';
-import { HttpClient } from '@angular/common/http';
+import { Organization, OrganizationMembership } from '../models/organization.model';
+import { ApiGateway } from './api-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationsService {
-  private baseUrl:string = "http://localhost:8000/api/organizations";
-
-  constructor(private http:HttpClient) {  }
-
-  getOrganizations(): Observable<Organization[]> {
-    return this.http.get(`${this.baseUrl}/list/`) as Observable<Organization[]>;
-  }
+  constructor(private apiGateWay:ApiGateway) {  }
 
   makeOrganization(organization: Organization):Observable<any> {
-    return this.http.post(`${this.baseUrl}/new/`, organization) as Observable<any>;
+    return this.apiGateWay.post("organizations/", organization);
   }
 
-  editOrganization(organization:any, id:number):Observable<any> {
-    return this.http.patch(`${this.baseUrl}/edit/${id}`, organization) as Observable<any>;
+  // Funciones exclusivas del admin de la organización
+
+  editOrganization(organization: Organization):Observable<any> {
+    return this.apiGateWay.patch(`organizations/${organization.id}/`, organization);
   }
-  deleteOrganization(id:number):Observable<any> {
-    return this.http.delete(`${this.baseUrl}/edit/${id}`) as Observable<any>;
+
+  deleteOrganization(organization: Organization):Observable<any> {
+    return this.apiGateWay.delete(`organizations/${organization.id}/`);
+  }
+
+  getOrganizationUsers(org_id:number):Observable<OrganizationMembership[]> {
+    return this.apiGateWay.get(`organizations/${org_id}/members/`);
+  }
+
+  changeOrganizationUserRole(org_id:number, orgMemb:OrganizationMembership):Observable<OrganizationMembership> {
+    return this.apiGateWay.patch(`organizations/${org_id}/members/${orgMemb.user}/`, orgMemb);
+  }
+
+  kickUserFromOrganization(org_id:number, usr_id:number):Observable<any> {
+    return this.apiGateWay.delete(`organizations/${org_id}/members/${usr_id}/`);
   }
 }

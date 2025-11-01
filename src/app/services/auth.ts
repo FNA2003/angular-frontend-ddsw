@@ -1,20 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
+import { RegisterPayload, User } from '../models/user.model';
 import { Observable } from 'rxjs';
+import { ApiGateway } from './api-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
-  private baseUrl = "http://localhost:8000/api/access";
+  constructor(private apiGateway:ApiGateway) {  }
 
-  constructor(private http:HttpClient) {  }
-
-  register(user:User):Observable<any> {
-    return this.http.post(`${this.baseUrl}/register/`, user);
+  register(user:RegisterPayload):Observable<any> {
+    return this.apiGateway.post("auth/register/", user);
   }
-  login(user:{email:string; password:string}):Observable<any> {
-    return this.http.post(`${this.baseUrl}/login/`, user);
+  login(user:User):Observable<any> {
+    return this.apiGateway.post("auth/token/", user);
   }
 }

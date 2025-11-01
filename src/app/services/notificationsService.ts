@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Invitation } from '../models/invitation.model';
-import { HttpClient } from '@angular/common/http';
+import { OrganizationInvitation } from '../models/invitation.model';
+import { ApiGateway } from './api-gateway';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvitationsService {
-  private baseUrl = "http://localhost:8000/api/invitations";
+  constructor(private apiGateway:ApiGateway) {  }
 
-  constructor(private http: HttpClient) {  }
-
-  getInvitations():Observable<Invitation[]> {
-    return this.http.get(`${this.baseUrl}/list/`) as Observable<Invitation[]>;
-  }
-  sendInvitations(emails:string[]):Observable<any> {
-    return this.http.post(`${this.baseUrl}/send/`, emails);
+  // Listar invitaciones
+  getInvitations():Observable<OrganizationInvitation[]> {
+    return this.apiGateway.get("invitations/");
   }
 
-  rejectInvitation(invitationNumber:number):Observable<any> {
-    return this.http.delete(`${this.baseUrl}/handle/${invitationNumber}/`);
+  // Función para rechazar o aceptar una invitación
+  // Se modifca el booleano del modelo para un caso o el otro.
+  handleInvitation(invitation:OrganizationInvitation):Observable<any> {
+    return this.apiGateway.patch(`invitations/${invitation.id}/`, invitation);
   }
-  acceptInvitation(invitationNumber:number, invitation:Invitation):Observable<any> {
-    return this.http.post(`${this.baseUrl}/handle/${invitationNumber}/`, invitation);
+
+  // Enviar una invitación a un usuario
+  sendInvitation(invitation:OrganizationInvitation):Observable<any> {
+    return this.apiGateway.post(`organizations/${invitation.organization}/invitations/`, invitation);
   }
 }

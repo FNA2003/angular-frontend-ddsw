@@ -1,9 +1,8 @@
-import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { catchError, Observable, throwError } from "rxjs";
-import { UserDataService } from "../services/user-data-service";
 
 /* 
  * Interceptor para, ante cualquier query-request del usuario
@@ -12,7 +11,7 @@ import { UserDataService } from "../services/user-data-service";
  */
 @Injectable()
 export class AuthInterceptor {
-    constructor(private router:Router, private toastr:ToastrService, private userData:UserDataService) {  }
+    constructor(private router:Router, private toastr:ToastrService) {  }
 
 
     handle(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
@@ -36,7 +35,6 @@ export class AuthInterceptor {
                 if (error.status === 401) {
                     // Token Inválido o sesión expirada
                     localStorage.removeItem("acc_tk");
-                    this.userData.clearUser();
                     this.toastr.error("Iniciá sesión", "Credenciales Vencidas/Inválidas");
                     this.router.navigate(["/home"]);
                 }
