@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserDataService } from '../../../services/user-data-service';
 import { Organization } from '../../../models/organization.model';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-create-organization',
@@ -22,7 +23,8 @@ export class OrganizationForm {
 
   constructor(private toastr: ToastrService, 
               private organizationsService:OrganizationsService, 
-              private router:Router
+              private router:Router,
+              private errorParserService:ErrorParserService
   ){  }
 
   onSubmit() {
@@ -40,8 +42,8 @@ export class OrganizationForm {
           this.toastr.success("Organización creada correctamente", "Éxito al crear la organización");
           this.router.navigate(["/app"]);
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al crear la organización!");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear la organización!");
         }
       })
   }

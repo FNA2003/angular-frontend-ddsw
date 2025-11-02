@@ -4,8 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RegisterPayload, User } from '../../models/user.model';
 import { Auth } from '../../services/auth';
 import { Router } from '@angular/router';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { UserDataService } from '../../services/user-data-service';
+import { ErrorParserService } from '../../services/error-parser-service';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +22,8 @@ export class Register {
 
   constructor(private toastr: ToastrService, 
               private authService: Auth, 
-              private router:Router) {  }
+              private router:Router,
+              private errorParserService:ErrorParserService) {  }
 
 
   /* Método que se llama una vez que se 'submitea' algo */
@@ -41,8 +41,8 @@ export class Register {
         this.toastr.success("Redirigiendo...", "Usuario Registrado!");
         this.router.navigate(["/app"]);
       },
-      error: (response:HttpErrorResponse) => {
-        this.toastr.error(`Errores: ${response.error}`, "Error al registrar el usuario!")
+      error: (e) => {
+        this.toastr.error(this.errorParserService.parseBackendError(e), "Error al registrar el usuario!")
       }
     });
   }

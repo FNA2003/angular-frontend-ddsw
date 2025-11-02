@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InvitationsService } from '../../../services/notificationsService';
 import { OrganizationInvitation } from '../../../models/invitation.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-list-invitations',
@@ -14,7 +15,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ListInvitations {
   invitations:OrganizationInvitation[] = [];
 
-  constructor(private toastr:ToastrService, private invitationsService:InvitationsService) {  }
+  constructor(private toastr:ToastrService, 
+              private invitationsService:InvitationsService,
+              private errrorParserService:ErrorParserService) {  }
 
   ngOnInit() {
     this.invitationsService.getInvitations()
@@ -22,8 +25,8 @@ export class ListInvitations {
         next: (data:any) => {
           this.invitations = [... data.data];
         },
-        error: (data:HttpErrorResponse) => 
-          this.toastr.error(`Errores: ${data.error}`, 
+        error: (data:any) => 
+          this.toastr.error(this.errrorParserService.parseBackendError(data), 
             "Error de acceso de invitaciones!")
       })
   }
@@ -39,8 +42,8 @@ export class ListInvitations {
           const index:number = this.invitations.indexOf(invitation);
           this.invitations.splice(index, 1);
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al rechazar invitación");
+        error:(e) => {
+          this.toastr.error(this.errrorParserService.parseBackendError(e), "Error al rechazar invitación");
         }
       });
   }
@@ -54,8 +57,8 @@ export class ListInvitations {
           this.toastr.success("Se aceptó correctamente la invitación", "Éxito al aceptar!");
           location.reload();
         },
-        error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al aceptar invitación");
+        error: (e) => {
+          this.toastr.error(this.errrorParserService.parseBackendError(e), "Error al aceptar invitación");
         }
       });
   }

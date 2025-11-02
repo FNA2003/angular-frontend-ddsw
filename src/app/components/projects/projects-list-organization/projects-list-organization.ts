@@ -7,6 +7,7 @@ import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserDataService } from '../../../services/user-data-service';
 import { RouterLink } from '@angular/router';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-projects-list-organization',
@@ -23,7 +24,8 @@ export class ProjectsListOrganization {
   constructor(private toastr:ToastrService, 
               private projectService:ProjectsService,
               private projectsService:ProjectsService,
-              private userDataService:UserDataService) { }
+              private userDataService:UserDataService,
+              private errorParserService:ErrorParserService) { }
 
   ngOnInit() {
     this.userDataService.getOrganizationObject()
@@ -38,13 +40,13 @@ export class ProjectsListOrganization {
             next:(v) => {
               this.projects = v;
             },
-            error:(e:HttpErrorResponse) => {
-              this.toastr.error(`Errores: ${e.error}`, "Error al tratar de obtener los proyectos organizacionales!");
+            error:(e) => {
+              this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de obtener los proyectos organizacionales!");
             }
           });
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errors: ${e.error}`, "Error al tratar de obtener el id de la organización de su organización");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de obtener el id de la organización de su organización");
         }
       });    
   }
@@ -65,8 +67,8 @@ export class ProjectsListOrganization {
           this.toastr.success("Se eliminó correctamente el proyecto", "Éxito al eliminar el proyecto");
           this.projects.splice(this.projects.indexOf(project), 1);
         },
-        error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de eliminar el proyecto");
+        error: (e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de eliminar el proyecto");
         }
       });
   }  

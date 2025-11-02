@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../../services/auth';
 import { HttpErrorResponse } from '@angular/common/http';
 import { RegisterPayload } from '../../models/user.model';
+import { ErrorParserService } from '../../services/error-parser-service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class Log_in {
 
   constructor(private authService:Auth, 
               private toastr:ToastrService, 
-              private router:Router) {  }
+              private router:Router,
+              private errorParserService:ErrorParserService) {  }
 
   onSubmit() {
     if (this.formLogin.invalid) {
@@ -39,7 +41,7 @@ export class Log_in {
 
           this.router.navigate(["/app"]);
         },
-        error:(e:HttpErrorResponse) => this.toastr.error(`Errores: ${e.error}`, "Error al inciar sesión!")
+        error:(e) => this.toastr.error(this.errorParserService.parseBackendError(e), "Error al inciar sesión!")
       });
   }
 }

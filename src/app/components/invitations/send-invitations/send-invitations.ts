@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InvitationsService } from '../../../services/notificationsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserDataService } from '../../../services/user-data-service';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-send-invitations',
@@ -19,7 +20,8 @@ export class SendInvitations {
 
   constructor (private invitationsService:InvitationsService,
                private toastr:ToastrService,
-               private userDataService:UserDataService) {  }
+               private userDataService:UserDataService,
+               private errorParserService:ErrorParserService) {  }
 
   ngOnInit() {
     this.userDataService.getOrganizationObject()
@@ -27,8 +29,8 @@ export class SendInvitations {
         next: (v) => {
           if (v.length > 0) this.organizationId = v[0].id as number;
         },
-        error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Erorr al tratar de obtener el id de la organización C:'send-invitations'");
+        error: (e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Erorr al tratar de obtener el id de la organización C:'send-invitations'");
         }
       })
   }
@@ -60,8 +62,8 @@ export class SendInvitations {
           this.emails.length = 0;
           this.emailControl.reset();
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errrores: ${e.error}`, "Error al enviar invitaciones!");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al enviar invitaciones!");
         }
       });
   }

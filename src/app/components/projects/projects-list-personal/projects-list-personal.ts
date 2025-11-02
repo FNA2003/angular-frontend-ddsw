@@ -5,6 +5,7 @@ import { EditProject } from '../edit-project/edit-project';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-projects-list-personal',
@@ -19,7 +20,7 @@ export class ProjectsListPersonal {
 
   constructor(private toastr:ToastrService, 
               private projectService:ProjectsService,
-              private projectsService:ProjectsService) { }
+              private errorParserService:ErrorParserService) { }
 
   ngOnInit() {
     this.projectService.getPersonalProjects()
@@ -27,8 +28,8 @@ export class ProjectsListPersonal {
         next:(v) => {
           this.projects = v;
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de obtener los proyectos personales!");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de obtener los proyectos personales!");
         }
       });
   }
@@ -49,8 +50,8 @@ export class ProjectsListPersonal {
           this.toastr.success("Se eliminó correctamente el proyecto", "Éxito al eliminar el proyecto");
           this.projects.splice(this.projects.indexOf(project), 1);
         },
-        error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de eliminar el proyecto");
+        error: (e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de eliminar el proyecto");
         }
       });
   }  

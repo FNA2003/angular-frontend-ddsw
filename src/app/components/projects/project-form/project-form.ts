@@ -6,6 +6,7 @@ import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UserDataService } from '../../../services/user-data-service';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-project-form',
@@ -24,7 +25,8 @@ export class ProjectForm {
   constructor(private toastr:ToastrService, 
               private projectsService:ProjectsService, 
               private router:Router, 
-              private userData:UserDataService ) {  }
+              private userData:UserDataService,
+              private errorParserService:ErrorParserService) {  }
 
 
   ngOnInit() {
@@ -55,8 +57,8 @@ export class ProjectForm {
           this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
           this.router.navigate(["/app"]);
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
         }
       });
     } else {
@@ -67,8 +69,8 @@ export class ProjectForm {
           this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
           this.router.navigate(["/app"]);
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
         }
       });
     }

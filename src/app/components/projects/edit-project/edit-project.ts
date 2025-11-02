@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserDataService } from '../../../services/user-data-service';
+import { ErrorParserService } from '../../../services/error-parser-service';
 
 @Component({
   selector: 'app-edit-project',
@@ -26,7 +27,8 @@ export class EditProject {
 
   constructor (private toastr:ToastrService, 
                private projectService:ProjectsService,
-               private userDataService:UserDataService) {  }
+               private userDataService:UserDataService,
+               private errorParserService:ErrorParserService) {  }
 
   ngOnInit() {
     this.formulario = new FormGroup({
@@ -48,8 +50,8 @@ export class EditProject {
         next:(v) => {
           if (v.length > 0) this.organizationId = v[0].id as number;
         },
-        error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de obtener el id de su organización");
+        error:(e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de obtener el id de su organización");
         }
       });
   }
@@ -70,8 +72,8 @@ export class EditProject {
           this.toastr.success("Todos los campos alterados fueron modificados", "Éxito al actualizar proyecto organizacional!");
           this.save.emit(p);
         },
-        error: (e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al editar proyecto!");
+        error: (e) => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al editar proyecto!");
         }
       });
     } else {
@@ -82,8 +84,8 @@ export class EditProject {
             this.toastr.success("Todos los campos alterados fueron modificados", "Éxito al actualizar proyecto personal!");
             this.save.emit(p);
           },
-          error: (e:HttpErrorResponse) => {
-            this.toastr.error(`Errores: ${e.error}`, "Error al editar proyecto!");
+          error: (e) => {
+            this.toastr.error(this.errorParserService.parseBackendError(e), "Error al editar proyecto!");
           }
         });
     }
