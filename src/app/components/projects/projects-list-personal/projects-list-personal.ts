@@ -1,39 +1,36 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { Project } from '../../../models/project.model';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { EditProject } from '../edit-project/edit-project';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
-import { UserDataService } from '../../../services/user-data-service';
-import { User } from '../../../models/user.model';
 
 @Component({
-  selector: 'app-projects-list',
-  imports: [DatePipe, NgClass, EditProject, RouterLink],
-  templateUrl: './projects-list.html',
-  styleUrl: './projects-list.css',
+  selector: 'app-projects-list-personal',
+  imports: [DatePipe, EditProject],
+  templateUrl: './projects-list-personal.html',
+  styleUrl: './projects-list-personal.css',
   standalone:true
 })
-export class ProjectsList {
-  @Input() projects:Project[] = [];
-  @Input() projectType:ProjectEnum = ProjectEnum.PERSONAL;
-
-  user?:User;
-
-  prEnum = ProjectEnum;
-  editProjectId:number|null = null;
+export class ProjectsListPersonal {
+  projects:Project[] = [];
+  editProjectId:number|null|undefined = null;
 
   constructor(private toastr:ToastrService, 
               private projectService:ProjectsService,
-              private userData:UserDataService) { }
+              private projectsService:ProjectsService) { }
 
   ngOnInit() {
-
-    this.userData.user$.subscribe(usr => {
-      this.user = usr as User;
-    });
+    this.projectService.getPersonalProjects()
+      .subscribe({
+        next:(v) => {
+          this.projects = v;
+        },
+        error:(e:HttpErrorResponse) => {
+          this.toastr.error(`Errores: ${e.error}`, "Error al tratar de obtener los proyectos personales!");
+        }
+      });
   }
 
   /* Atrapo el emmiter de 'edit-project' para mostrar el proyecto actualizado sin volver a consultar el back */
@@ -46,7 +43,7 @@ export class ProjectsList {
     this.editProjectId = null;
   }
   deleteProject(project:Project) {
-    this.projectService.deleteProject(project.id)
+    this.projectService.removePersonalProject(project.id as number)
       .subscribe({
         next: (v:any) => {
           this.toastr.success("Se eliminó correctamente el proyecto", "Éxito al eliminar el proyecto");

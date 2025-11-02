@@ -1,25 +1,24 @@
-<div [ngClass]="['main-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+<div class='main-container pers'>
     
-    <div [ngClass]="['title-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+    <div class='title-container pers'>
         <span>
-            @switch (projectType) {
-                @case (prEnum.PERSONAL) {PROYECTOS PERSONALES}
-                @case (prEnum.ORGANIZATIONAL) {PROYECTOS ORGANIZACIONALES}
-            }
+            PROYECTOS PERSONALES
         </span>
     </div>
     
     <div class="projects-container">
-        @for(proyecto of projects; track proyecto.title) {
+        @for(proyecto of projects; track proyecto.id) {
+            <!-- Acá verificamos si se quiere editar el proyecto que se renderizó en esta iteración -->
             @if(editProjectId === proyecto.id) {
                 <app-edit-project
                     [project]="proyecto"
                     (save)="onSave($event)"
                     (cancel)="editProjectId = null"/>
-            } @else {
-                <div [ngClass]="['project-container', projectType === prEnum.ORGANIZATIONAL? 'org' : 'pers']">
+            } 
+            @else {
+                <div class='project-container pers'>
                     <div class="project-header">
-                        <span>Proyecto: "{{ proyecto.title }}"</span>
+                        <span>Proyecto: "{{ proyecto.name }}"</span>
                         <div>
                             <button class="proyect-edit-button" (click)="deleteProject(proyecto)">
                                 <i class="bi bi-trash"></i></button>
@@ -28,7 +27,7 @@
                         </div>
                     </div>
                     <div class="project-info">
-                        <span>Creado el: {{ proyecto.creation_date | date : 'dd/MM/yyyy' }}</span>
+                        <span>Creado el: {{ proyecto.created_at | date : 'dd/MM/yyyy' }}</span>
                     </div>
                     <div class="project-description">
                         <span>{{ proyecto.description }}</span>
@@ -39,19 +38,5 @@
                 </div>
             }
         }
-
-        <!-- Acá verificamos si no hay proyectos y si el proyecto es organizacional -->
-        @empty {
-            @if (projectType == prEnum.ORGANIZATIONAL && user?.organization_fk == null) {
-                <button
-                    class="btn-crear-organizacion"
-                    [routerLink]="['/create_organization']">
-
-                    Crear organización <i class="bi bi-plus-lg"></i>
-                </button>
-            }
-        }
-
-
     </div>
 </div>

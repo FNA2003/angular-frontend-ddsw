@@ -1,5 +1,5 @@
 <form [formGroup]="formulario" action="" method="">
-    <div [ngClass]="['project-container', projectType.ORGANIZATIONAL === project?.tipe? 'org' : 'pers']" style="display: block;">
+    <div [ngClass]="['project-container', organizationId < 0 ? 'org' : 'pers']" style="display: block;">
         
         <div class="project-header">
             <span>Proyecto:</span>
@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="project-info">
-            <span>Creado el: {{ project?.creation_date | date : 'dd/MM/yyyy' }}</span>
+            <span>Creado el: {{ project?.created_at| date : 'dd/MM/yyyy' }}</span>
         </div>
         <div class="project-description" style="text-align: center;">
             <textarea 
