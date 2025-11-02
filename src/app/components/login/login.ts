@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../../services/auth';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserDataService } from '../../services/user-data-service';
 import { RegisterPayload } from '../../models/user.model';
 
 @Component({
@@ -15,11 +14,13 @@ import { RegisterPayload } from '../../models/user.model';
 })
 export class Log_in {
   formLogin = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   });
 
-  constructor(private authService:Auth, private toastr:ToastrService, private router:Router, private userData:UserDataService) {  }
+  constructor(private authService:Auth, 
+              private toastr:ToastrService, 
+              private router:Router) {  }
 
   onSubmit() {
     if (this.formLogin.invalid) {
