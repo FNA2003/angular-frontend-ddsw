@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Project, ProjectEnum } from '../../../models/project.model';
+import { Project } from '../../../models/project.model';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,49 +14,24 @@ import { UserDataService } from '../../../services/user-data-service';
   styleUrl: './project-form.css'
 })
 export class ProjectForm {
-  tiposProyecto:ProjectEnum[] = [];
+  organizationId:number = -1;
+
   formulario:FormGroup = new FormGroup({
-    tipe:new FormControl("", [Validators.required]),
-    title:new FormControl("", [Validators.required, Validators.maxLength(32)]),
+    name:new FormControl("", [Validators.required, Validators.maxLength(32)]),
     description:new FormControl("")
   });
-
-  contenedorAdmins:boolean = false;
-  listaAdministradores:Array<string> = [];
 
   constructor(private toastr:ToastrService, 
               private projectsService:ProjectsService, 
               private router:Router, 
-              private userData:UserDataService) {  }
+              private userData:UserDataService ) {  }
 
 
   ngOnInit() {
-    this.formulario.get("tipe")?.valueChanges
-      .subscribe((tipo:ProjectEnum) => {
-        this.contenedorAdmins = tipo === ProjectEnum.ORGANIZATIONAL;
+    this.userData.getOrganizationObject()
+      .subscribe(v => {
+        if (v.length > 0) this.organizationId = v[0].id as number;
       });
-    this.userData.user$
-      .subscribe(user => {
-        /* Según si el usuario tiene proyecto o no, se le muestra o no la opcion de agregar proyectos organizacionales */
-        if (!user?.organization_fk) {
-          this.tiposProyecto = [ProjectEnum.PERSONAL];
-        } else {
-          this.tiposProyecto = Object.values(ProjectEnum);
-        }
-      });
-  }
-
-  addAdmin() {
-    const input = document.getElementById("admin-input") as HTMLInputElement;
-    
-    if (input && input.value.trim().length > 0) {
-      this.listaAdministradores.push(input.value);
-      input.value = "";
-      input.focus();
-    }
-  }
-  removeAdmin(admin:string) {
-    this.listaAdministradores.splice(this.listaAdministradores.indexOf(admin), 1);
   }
 
   onSubmit() {
@@ -68,19 +43,35 @@ export class ProjectForm {
     }
 
     const proyecto = this.formulario.getRawValue() as Project;
-    proyecto.creation_date = new Date().toISOString().split('T')[0];
+    proyecto.created_at = new Date().toISOString().split('T')[0];
 
-    this.projectsService.makeProject(proyecto)
+    const dropdown:HTMLSelectElement = document.getElementById("projectTipeSelector") as HTMLSelectElement;
+
+    if (this.organizationId > 0 && dropdown.value == 'o') {
+      this.projectsService.makeOrganizationProject(this.organizationId, proyecto)
       .subscribe({
         next:(val) => {
           this.formulario.reset();
-          this.listaAdministradores = [];
           this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
           this.router.navigate(["/app"]);
         },
         error:(e:HttpErrorResponse) => {
           this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
         }
-      })
+      });
+    } else {
+      this.projectsService.makePersonalProject(proyecto)
+      .subscribe({
+        next:(val) => {
+          this.formulario.reset();
+          this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
+          this.router.navigate(["/app"]);
+        },
+        error:(e:HttpErrorResponse) => {
+          this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
+        }
+      });
+    }
+    
   }
 }
