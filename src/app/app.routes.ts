@@ -8,6 +8,8 @@ import { Logout } from './components/logout/logout';
 import { RedirectIfAuthenticatedGuard } from './interceptors/redirect-if-authenticated';
 import { ProjectForm } from './components/projects/project-form/project-form';
 import { OrganizationForm } from './components/organizations/create-organization/create-organization';
+import { ListPersonalProyectTasks } from './components/tasks/list-personal-proyect-tasks/list-personal-proyect-tasks';
+import { ListOrganizationProyectTasks } from './components/tasks/list-organization-proyect-tasks/list-organization-proyect-tasks';
 
 export const routes: Routes = [
     // Desde index hasta abajo
@@ -18,9 +20,18 @@ export const routes: Routes = [
     {path:"register", component:Register, canActivate:[RedirectIfAuthenticatedGuard]},
     {path:"log_in", component:Log_in, canActivate:[RedirectIfAuthenticatedGuard]},
     
-    // COMPONENTES PROTEGIDOS (NECESITAMOS LOGGEARNOS)
+    // ---- COMPONENTES PROTEGIDOS (NECESITAMOS LOGGEARNOS) -----
     {path:"app", component:MainPage, canActivate:[AuthGuard]},
+    
     {path:"logout", component:Logout, canActivate:[AuthGuard]},
+    
     {path:"create_project", component:ProjectForm, canActivate:[AuthGuard]},
+    
     {path:"create_organization", component: OrganizationForm, canActivate:[AuthGuard]},
+
+    // Tareas personales
+    {path:"tasks/:project_id", component:ListPersonalProyectTasks, canActivate:[AuthGuard]},
+
+    // Tareas organizacionales
+    {path:"tasks/:project_id/:organization_id", component:ListOrganizationProyectTasks, canActivate:[AuthGuard]},
 ];

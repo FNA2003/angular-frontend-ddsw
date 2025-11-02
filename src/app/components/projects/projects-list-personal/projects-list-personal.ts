@@ -6,10 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { ProjectsService } from '../../../services/projectsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorParserService } from '../../../services/error-parser-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-projects-list-personal',
-  imports: [DatePipe, EditProject],
+  imports: [DatePipe, EditProject, RouterLink],
   templateUrl: './projects-list-personal.html',
   styleUrl: './projects-list-personal.css',
   standalone:true

@@ -33,7 +33,7 @@
                         <p>{{ proyecto.description }}</p>
                     </div>
                     <div style="text-align:center;">
-                        <button>Ir al Proyecto</button>
+                        <button [routerLink]="[`/tasks/${proyecto.id}`]">Ir al Proyecto</button>
                     </div>
                 </div>
             }
