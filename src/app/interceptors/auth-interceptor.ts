@@ -29,17 +29,7 @@ export class AuthInterceptor {
             send_request = req;
         }
 
-        /* Acá enviamos la query, y, si recibimos un error 401, 'cerramos sesión' */
-        return next(send_request).pipe(
-            catchError((error: HttpErrorResponse) => {
-                if (error.status === 401) {
-                    // Token Inválido o sesión expirada
-                    localStorage.removeItem("acc_tk");
-                    this.toastr.error("Iniciá sesión", "Credenciales Vencidas/Inválidas");
-                    this.router.navigate(["/home"]);
-                }
-                return throwError(() => error);
-            })
-        )
+        /* Acá enviamos la query */
+        return next(send_request);
     }
 }

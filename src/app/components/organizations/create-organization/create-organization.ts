@@ -32,7 +32,6 @@ export class OrganizationForm {
     }
 
     const organization = this.registerForm.getRawValue() as Organization;
-    organization.created_at = new Date().toISOString().split('T')[0];
     
     this.organizationsService.makeOrganization(organization)
       .subscribe({

@@ -17,15 +17,15 @@ export class ApiGateway {
   constructor(private http:HttpClient) {  }
 
   get(endpoint:string):Observable<any> {
-    return this.http.get(`${this.baseUrl}/${endpoint}`);
+    return this.http.get(`${this.baseUrl + endpoint}`);
   }
   post(endpoint:string, data:any):Observable<any> {
-    return this.http.post(`${this.baseUrl}/${endpoint}`, data);
+    return this.http.post(`${this.baseUrl + endpoint}`, data);
   }
   patch(endpoint:string, data:any):Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${endpoint}`, data);
+    return this.http.patch(`${this.baseUrl + endpoint}`, data);
   }
   delete(endpoint:string):Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${endpoint}`);
+    return this.http.delete(`${this.baseUrl + endpoint}`);
   }
 }

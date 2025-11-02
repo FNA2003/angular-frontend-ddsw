@@ -25,7 +25,7 @@ export class Notifications {
     this.userData.getOrganizationObject()
       .subscribe({
         next: (v) => {
-          if (v.length < 0) {
+          if (v.length < 1) {
             this.puedeInvitar = false;
             this.listarNotificaciones = true;
           } else {

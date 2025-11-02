@@ -1,10 +1,10 @@
 <form [formGroup]="formulario" action="" method="">
-    <div [ngClass]="['project-container', organizationId < 0 ? 'org' : 'pers']" style="display: block;">
+    <div [ngClass]="['project-container', (!project?.owner)? 'org' : 'pers']" style="display: block;">
         
         <div class="project-header">
             <span>Proyecto:</span>
             <input 
-            formControlName="title"
+            formControlName="name"
             type="text" />
             <div>
                 <button class="proyect-edit-button" (click)="cancel.emit()">

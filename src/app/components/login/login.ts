@@ -15,7 +15,7 @@ import { RegisterPayload } from '../../models/user.model';
 export class Log_in {
   formLogin = new FormGroup({
     username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
+    password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
   constructor(private authService:Auth, 

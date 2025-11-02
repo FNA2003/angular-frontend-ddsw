@@ -4,10 +4,10 @@
     <div class="inputs-container inputs-required">
 
         <label>(*) Username:</label>
-        <input formControlName="text" type="email" placeholder="Ingresa tu nombre de usuario" style="width: 100%;"/>
+        <input formControlName="username" type="text" placeholder="Ingresa tu nombre de usuario" style="width: 100%;"/>
 
         <label>(*) Contraseña:</label>
-        <input formControlName="password" type="password" placeholder="Ingresa tu contraseña" style="width: 100%;" />
+        <input formControlName="password" minlength="8" type="password" placeholder="Ingresa tu contraseña" style="width: 100%;" />
     
         
         <button type="submit" style="width: 100%;">Iniciar Sesión</button>

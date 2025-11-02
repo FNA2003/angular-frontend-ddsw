@@ -21,7 +21,7 @@ export class ProjectsService {
     return this.apiGateWay.patch(`projects/${project.id}/`, project);
   }
   removePersonalProject(project_id:number):Observable<any> {
-    return this.apiGateWay.delete(`/projects/${project_id}/`);
+    return this.apiGateWay.delete(`projects/${project_id}/`);
   }
 
 

@@ -102,6 +102,16 @@
     font-style: italic;
     opacity: 0.8;
     padding: 1.3rem 0;
+    max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.project-description p {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 .btn-crear-organizacion {

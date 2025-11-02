@@ -21,7 +21,7 @@ export class InvitationsService {
   }
 
   // Enviar una invitación a un usuario
-  sendInvitation(invitation:OrganizationInvitation):Observable<any> {
-    return this.apiGateway.post(`organizations/${invitation.organization}/invitations/`, invitation);
+  sendInvitation(invitation:{"emails":string[]}, org_id:number):Observable<any> {
+    return this.apiGateway.post(`organizations/${org_id}/invitations/`, invitation);
   }
 }

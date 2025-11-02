@@ -35,12 +35,12 @@ export class EditProject {
       description:new FormControl(this.project?.description),
       
       // Estos no :/
-      id:new FormControl(this.project?.id, [Validators.required]),
+      id:new FormControl(this.project?.id),
       organization:new FormControl(this.project?.organization),
-      created_at:new FormControl(this.project?.created_at, [Validators.required]),
-      is_closed:new FormControl(this.project?.is_closed, [Validators.required]),
-      owner:new FormControl(this.project?.owner, [Validators.required]),
-      closed_at:new FormControl(this.project?.closed_at, [Validators.required])
+      created_at:new FormControl(this.project?.created_at),
+      is_closed:new FormControl(this.project?.is_closed),
+      owner:new FormControl(this.project?.owner),
+      closed_at:new FormControl(this.project?.closed_at)
     });
 
     this.userDataService.getOrganizationObject()
@@ -62,7 +62,7 @@ export class EditProject {
 
     const p = this.formulario.getRawValue() as Project;
    
-    if (this.organizationId < 0) {
+    if (p.organization) {
       // El proyecto es organizacional
       this.projectService.editOrganizationProject(this.organizationId, p)
         .subscribe({

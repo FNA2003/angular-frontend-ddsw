@@ -1,4 +1,5 @@
 <div id="sInvitation-container">
+
     <h4 style="text-align: left;">Invitar participantes a la organización</h4>
     <div>
         <input [formControl]="emailControl" type="email" placeholder="Ingresá un email" />
@@ -8,7 +9,7 @@
     </div>
 
     <ul>
-        @for(email of emailList; let i = $index; track email) {
+        @for(email of emails; let i = $index; track email) {
             <li>
                 <span>{{ email }}</span>
                 <button (click)="removeEmail(i)">Eliminar</button>
@@ -16,10 +17,12 @@
         }
     </ul>
 
-    @if (emailList.length > 0) {
-        <button (click)="sendEmails()">
-        Invitar participantes
-        <i class="bi bi-plus"></i>
-        </button>
-    }
+    <div>
+        @if (emails.length > 0) {
+            <button (click)="sendEmails()">
+            Invitar participantes
+            <i class="bi bi-plus"></i>
+            </button>
+        }
+    </div>
 </div>
