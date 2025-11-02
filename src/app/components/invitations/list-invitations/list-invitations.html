@@ -1,29 +1,29 @@
 <div>
     <div id="invitations-container">
       <h4>Lista de invitaciones recibidas</h4>
-      @for(invitacion of invitations; track invitacion.send_date) {
+      @for(invitacion of invitations; track invitacion.id) {
         <div>
           <div>
-            <span>Fecha de envio: {{ invitacion.send_date | date:'dd/MM/yyyy' }}</span>
+            <span>Fecha de envio: {{ invitacion.created_at| date:'dd/MM/yyyy' }}</span>
           </div>
           <div>
             <span style="font-style:italic;"> (dd/mm/aaaa) </span>
           </div>
         </div>
         <div>
-          <span>Organización: {{ invitacion.organization_fk.name }}</span>
+          <span>Organización: {{ invitacion.organization }}</span>
         </div>
         <div>
           <div>
-            <span>Remitente: {{ invitacion.sender_fk.username }}</span>
+            <span>Remitente: {{ invitacion.inviter_username }}</span>
           </div>
           <div>
-            <span style="font-style:italic;"> (email): {{ invitacion.sender_fk.email }} </span>
+            <span style="font-style:italic;"> (email): {{ invitacion.inviter_email }} </span>
           </div>
         </div>
         <div class="invitations-buttons-container">
           <button (mousedown)="acceptInvitation(invitacion)" class="accept-invitation">Aceptar</button>
-          <button (mousedown)="rejectInvitation(invitacion.id)" class="reject-invitation">Rechazar</button>
+          <button (mousedown)="rejectInvitation(invitacion)" class="reject-invitation">Rechazar</button>
         </div>
 
         <br><hr><br>

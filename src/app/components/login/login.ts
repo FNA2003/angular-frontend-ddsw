@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Auth } from '../../services/auth';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UserDataService } from '../../services/user-data-service';
+import { RegisterPayload } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -27,15 +28,13 @@ export class Log_in {
     }
 
     /* Parseo de datos para evitar conflictos de tipo undefiend */
-    const data = this.formLogin.getRawValue() as {email:string; password:string};
+    const data = this.formLogin.getRawValue() as RegisterPayload;
 
     this.authService.login(data)
       .subscribe({
         next: (response:any) => { 
           localStorage.setItem("acc_tk", response.access);
           this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
-
-          this.userData.updateUser(response.user);
 
           this.router.navigate(["/app"]);
         },

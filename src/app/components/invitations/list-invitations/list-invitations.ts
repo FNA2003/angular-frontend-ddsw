@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { InvitationsService } from '../../../services/notificationsService';
-import { Invitation } from '../../../models/invitation.model';
+import { OrganizationInvitation } from '../../../models/invitation.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -12,8 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './list-invitations.css'
 })
 export class ListInvitations {
-  @Output() aceptarInvitacionEmmiter = new EventEmitter<Invitation>(); // Emitter para cuando se acepta la invitación
-  invitations:Invitation[] = [];
+  invitations:OrganizationInvitation[] = [];
 
   constructor(private toastr:ToastrService, private invitationsService:InvitationsService) {  }
 
@@ -29,13 +28,15 @@ export class ListInvitations {
       })
   }
 
-  rejectInvitation(invitationNumber:number):void {    
-    this.invitationsService.rejectInvitation(invitationNumber)
+  rejectInvitation(invitation:OrganizationInvitation) {
+    invitation.rejected = true;
+
+    this.invitationsService.handleInvitation(invitation)
       .subscribe({
         next:(v) => {
           this.toastr.success("Se rechazó correctamente la invitación", "Éxito al rechazar!");
           // Buscamos la invitación de la lista y, la borramos de ahi
-          const index:number = this.invitations.indexOf(this.invitations.find(x => x.id === invitationNumber) as Invitation);
+          const index:number = this.invitations.indexOf(invitation);
           this.invitations.splice(index, 1);
         },
         error:(e:HttpErrorResponse) => {
@@ -44,12 +45,14 @@ export class ListInvitations {
       });
   }
 
-  acceptInvitation(invitacion:Invitation):void {
-    this.invitationsService.acceptInvitation(invitacion.id, invitacion)
+  acceptInvitation(invitacion:OrganizationInvitation) {
+    invitacion.accepted = true;
+
+    this.invitationsService.handleInvitation(invitacion)
       .subscribe({
         next: (v) => {
           this.toastr.success("Se aceptó correctamente la invitación", "Éxito al aceptar!");
-          this.aceptarInvitacionEmmiter.emit(invitacion); // Emito para que el padre actualice la data
+          location.reload();
         },
         error: (e:HttpErrorResponse) => {
           this.toastr.error(`Errores: ${e.error}`, "Error al aceptar invitación");

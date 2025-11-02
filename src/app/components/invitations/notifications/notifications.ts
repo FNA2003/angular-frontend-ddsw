@@ -3,7 +3,7 @@ import { ListInvitations } from '../list-invitations/list-invitations';
 import { SendInvitations } from '../send-invitations/send-invitations';
 import { UserDataService } from '../../../services/user-data-service';
 import { User } from '../../../models/user.model';
-import { Invitation } from '../../../models/invitation.model';
+import { OrganizationInvitation } from '../../../models/invitation.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,30 +22,25 @@ export class Notifications {
   constructor(private userData:UserDataService, private router:Router) {  }
 
   ngOnInit() {
-    /* Siempre obtengo info del usuario */
-    this.userData.user$.subscribe(user => {
-      this.currentUser = user;
-
-      if (user?.organization_fk) {
-        this.puedeInvitar = true;
-        this.listarNotificaciones = false;
-      } else {
-        this.puedeInvitar = false;
-        this.listarNotificaciones = true;
-      }
-    });
+    this.userData.getOrganizationObject()
+      .subscribe({
+        next: (v) => {
+          if (v.length < 0) {
+            this.puedeInvitar = false;
+            this.listarNotificaciones = true;
+          } else {
+            this.puedeInvitar = true;
+            this.listarNotificaciones = false;
+          }
+        }
+      });
   }
 
   toggleNotificationsPanel() {
     this.mostrarPanel = !this.mostrarPanel;
   }
 
-  aceptoInvitacion(inv:Invitation) {
-    const nUsr = this.currentUser as User;
-    nUsr.organization_fk = inv.organization_fk;
-    
-    this.userData.updateUser(nUsr);
-
+  aceptoInvitacion() {
     window.location.reload();
   }
 }

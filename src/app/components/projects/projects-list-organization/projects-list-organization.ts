@@ -9,13 +9,13 @@ import { UserDataService } from '../../../services/user-data-service';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-projects-list-personal',
+  selector: 'app-projects-list-organization',
   imports: [DatePipe, EditProject, RouterLink],
   templateUrl: './projects-list-organization.html',
   styleUrl: '../projects-list-personal/projects-list-personal.css',
   standalone:true
 })
-export class ProjectsListPersonal {
+export class ProjectsListOrganization {
   projects:Project[] = [];
   editProjectId:number|null|undefined = null;
   organizationId:number = -1;

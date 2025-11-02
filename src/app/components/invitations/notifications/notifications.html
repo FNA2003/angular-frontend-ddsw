@@ -11,7 +11,7 @@
       <h3>Invitaciones</h3> <br><hr><hr><br>
 
       @if(listarNotificaciones) {
-        <app-list-invitations (aceptarInvitacionEmmiter)="aceptoInvitacion($event)"></app-list-invitations>
+        <app-list-invitations (aceptarInvitacionEmmiter)="aceptoInvitacion()"></app-list-invitations>
       }
 
       @if(puedeInvitar) {

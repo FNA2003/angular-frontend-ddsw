@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RegisterPayload, User } from '../models/user.model';
+import { RegisterPayload } from '../models/user.model';
 import { Observable } from 'rxjs';
 import { ApiGateway } from './api-gateway';
 
@@ -12,7 +12,7 @@ export class Auth {
   register(user:RegisterPayload):Observable<any> {
     return this.apiGateway.post("auth/register/", user);
   }
-  login(user:User):Observable<any> {
+  login(user:RegisterPayload):Observable<any> {
     return this.apiGateway.post("auth/token/", user);
   }
 }

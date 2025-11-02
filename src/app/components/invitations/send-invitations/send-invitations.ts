@@ -29,7 +29,8 @@ export class SendInvitations {
   }
 
   sendEmails() {
-    this.invitationsService.sendInvitations(this.emailList)
+    this.toastr.warning("El componente 'invitations/send-invitations' no agregó la lógica para enviar invitaciones. Falta que el back-end agregue la lógica correspondiente para tomar multiples invitaciones", "Sin implementar!");
+    /*this.invitationsService.sendInvitations(this.emailList)
       .subscribe({
         next:(val) => {
           this.toastr.success("Invitaciones enviadas", "Éxito en el envio!");
@@ -39,6 +40,6 @@ export class SendInvitations {
         error:(e:HttpErrorResponse) => {
           this.toastr.error(`Errrores: ${e.error}`, "Error al enviar invitaciones!");
         }
-      })
+      })*/
   }
 }
