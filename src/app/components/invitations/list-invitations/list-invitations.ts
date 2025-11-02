@@ -22,10 +22,11 @@ export class ListInvitations {
   ngOnInit() {
     this.invitationsService.getInvitations()
       .subscribe({
-        next: (data:any) => {
-          this.invitations = [... data.data];
+        next: (data) => {
+          this.invitations = [... data];
+          
         },
-        error: (data:any) => 
+        error: (data) => 
           this.toastr.error(this.errrorParserService.parseBackendError(data), 
             "Error de acceso de invitaciones!")
       })
