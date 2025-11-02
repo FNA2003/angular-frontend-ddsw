@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
-import { Project, ProjectEnum } from '../../../models/project.model';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { OrganizationsService } from '../../../services/organizationsService';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -33,18 +32,17 @@ export class OrganizationForm {
     }
 
     const organization = this.registerForm.getRawValue() as Organization;
-    organization.creation_date = new Date().toISOString().split('T')[0];
+    organization.created_at = new Date().toISOString().split('T')[0];
     
     this.organizationsService.makeOrganization(organization)
       .subscribe({
         next:(val) => {
-          this.registerForm.value();
           this.registerForm.reset();
-          this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
+          this.toastr.success("Organización creada correctamente", "Éxito al crear la organización");
           this.router.navigate(["/app"]);
         },
         error:(e:HttpErrorResponse) => {
-          this.toastr.error(`Errores: ${e.error}`, "Error al crear el proyecto!");
+          this.toastr.error(`Errores: ${e.error}`, "Error al crear la organización!");
         }
       })
   }
