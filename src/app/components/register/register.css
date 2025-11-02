@@ -1,9 +1,6 @@
 form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 5fr;
-
-    margin: 8vh 3vw;
+    max-width: 900px;
+    margin: 8vh auto;
 }
 
 h1 {
@@ -28,7 +25,7 @@ h1 {
 
 input, button{
     display: block;
-    width: 80%;
+    width: 100%;
 
     margin: 3vh 0;
 }
