@@ -16,8 +16,8 @@ export class InvitationsService {
 
   // Función para rechazar o aceptar una invitación
   // Se modifca el booleano del modelo para un caso o el otro.
-  handleInvitation(invitation:OrganizationInvitation):Observable<any> {
-    return this.apiGateway.patch(`invitations/${invitation.id}/`, invitation);
+  handleInvitation(invitation_act:{"action":string}, invitation_id:number):Observable<any> {
+    return this.apiGateway.patch(`invitations/${invitation_id}/`, invitation_act);
   }
 
   // Enviar una invitación a un usuario

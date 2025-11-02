@@ -33,9 +33,8 @@ export class ListInvitations {
   }
 
   rejectInvitation(invitation:OrganizationInvitation) {
-    invitation.rejected = true;
-
-    this.invitationsService.handleInvitation(invitation)
+    const action = {"action":"reject"};
+    this.invitationsService.handleInvitation(action, invitation.id as number)
       .subscribe({
         next:(v) => {
           this.toastr.success("Se rechazó correctamente la invitación", "Éxito al rechazar!");
@@ -49,10 +48,9 @@ export class ListInvitations {
       });
   }
 
-  acceptInvitation(invitacion:OrganizationInvitation) {
-    invitacion.accepted = true;
-
-    this.invitationsService.handleInvitation(invitacion)
+  acceptInvitation(invitation:OrganizationInvitation) {
+    const action = {"action":"accept"};
+    this.invitationsService.handleInvitation(action, invitation.id as number)
       .subscribe({
         next: (v) => {
           this.toastr.success("Se aceptó correctamente la invitación", "Éxito al aceptar!");
