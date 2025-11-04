@@ -46,6 +46,12 @@
                 Crear organización <i class="bi bi-plus-lg"></i>
             </button>
         }
-
+        @else {
+            <button
+                class="btn-administrate-org"
+                [routerLink]="[`/manageAdministration/${organizationId}`]">
+                Administrar Organización
+            </button>
+        }
     </div>
 </div>

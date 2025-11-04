@@ -37,9 +37,8 @@ export class Log_in {
       .subscribe({
         next: (response:any) => { 
           localStorage.setItem("acc_tk", response.access);
-          this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
-
           this.router.navigate(["/app"]);
+          this.toastr.success("Redirigiendo...", "Inicio de sesión exitoso!");
         },
         error:(e) => this.toastr.error(this.errorParserService.parseBackendError(e), "Error al inciar sesión!")
       });

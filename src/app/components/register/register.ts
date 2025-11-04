@@ -38,8 +38,8 @@ export class Register {
     this.authService.register(user).subscribe({
       next: (response:any) => { 
         localStorage.setItem("acc_tk", response.access);
-        this.toastr.success("Redirigiendo...", "Usuario Registrado!");
         this.router.navigate(["/app"]);
+        this.toastr.success("Redirigiendo...", "Usuario Registrado!");
       },
       error: (e) => {
         this.toastr.error(this.errorParserService.parseBackendError(e), "Error al registrar el usuario!")

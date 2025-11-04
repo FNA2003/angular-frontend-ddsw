@@ -19,8 +19,8 @@ export class OrganizationsService {
     return this.apiGateWay.patch(`organizations/${organization.id}/`, organization);
   }
 
-  deleteOrganization(organization: Organization):Observable<any> {
-    return this.apiGateWay.delete(`organizations/${organization.id}/`);
+  deleteOrganization(organization_id:number):Observable<any> {
+    return this.apiGateWay.delete(`organizations/${organization_id}/`);
   }
 
   getOrganizationUsers(org_id:number):Observable<OrganizationMembership[]> {

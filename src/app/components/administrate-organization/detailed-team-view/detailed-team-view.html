@@ -1,0 +1,49 @@
+<div>
+    <button class="goBackBtn" (click)="goBack.emit()">
+        <i class="bi bi-chevron-double-left"></i>
+        Volver
+    </button>
+</div>
+<div class="team-data">
+    @for (member of teamMembers; track member.id) {
+        <div class="member-container">
+            <div>
+                <div class="member-data">
+                    <div>
+                        <span>Id del Usuario: </span>
+                        <span>{{ member.user }}</span>
+                    </div>
+                    <div>
+                        <span>Fecha de Ingreso: </span>
+                        <span>{{ member.joined_at | date }}</span>
+                    </div>
+                    <div class="member-data-rol">
+                        <p>Nro. Rol: </p>
+                        {{ member.role }}
+                    </div>
+                </div>
+                <!-- Contenedor de los botones con los roles asignables -->
+                <div class="member-administrate-bottons">
+                    <button (click)="toggleRoleOptions(member.user)">Permisos</button>
+                    <button (click)="kickUser(member)">Eliminar</button>
+                </div>
+            </div>
+            <div class="rols-selector">
+            <!--Edición de roles, si se seleccionó arriba -->
+            @if (showRoleOptions[member.user]) {
+                @for (role of ORGANIZATION_ROLES; track role) {
+                    <button (click)="changeUserRole(member, role)">
+                    {{ formatedRole(role) }}
+                    </button>
+                }
+            }
+            </div>
+        </div>
+    }
+    @empty {
+        <p>No hay miembros en el equipo</p>
+    }
+</div>
+<div class="team-invite">
+    
+</div>

@@ -10,6 +10,8 @@ import { ProjectForm } from './components/projects/project-form/project-form';
 import { OrganizationForm } from './components/organizations/create-organization/create-organization';
 import { ListPersonalProyectTasks } from './components/tasks/list-personal-proyect-tasks/list-personal-proyect-tasks';
 import { ListOrganizationProyectTasks } from './components/tasks/list-organization-proyect-tasks/list-organization-proyect-tasks';
+import { AdministrateOrgMain } from './components/administrate-organization/administrate-org-main/administrate-org-main';
+import { AdministrateTeams } from './components/administrate-organization/administrate-teams/administrate-teams';
 
 export const routes: Routes = [
     // Desde index hasta abajo
@@ -34,4 +36,7 @@ export const routes: Routes = [
 
     // Tareas organizacionales
     {path:"tasks/:project_id/:organization_id", component:ListOrganizationProyectTasks, canActivate:[AuthGuard]},
+
+    // Página principal para administrar una organización
+    {path:"manageAdministration/:organization_id", component:AdministrateOrgMain, canActivate:[AuthGuard]}
 ];
