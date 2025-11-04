@@ -23,7 +23,7 @@ input,textarea {
     min-height: 30px;
 
     margin: .4rem 0;
-    padding: .2rem;
+    padding: .6rem;
 
     border: 1px solid var(--text-color);
 }
