@@ -61,44 +61,42 @@ export class EditTask {
     });
   }
 
-  // onSubmit() {
-  //   if (this.formulario.invalid) {
-  //     console.log(this.formulario.getRawValue());
+  submit() {
+    if (this.formulario.invalid) {
+      console.log(this.formulario.getRawValue());
       
-  //     this.toastr.warning("Cerciorese de que todos los campos requeridos estén completos y en el formato pedido.", "Error en los campos!");
-  //     return;
-  //   }
+      this.toastr.warning("Cerciorese de que todos los campos requeridos estén completos y en el formato pedido.", "Error en los campos!");
+      return;
+    }
 
-  //   const proyecto = this.formulario.getRawValue() as Project;
-  //   proyecto.created_at = new Date().toISOString().split('T')[0];
+    const tarea = this.formulario.getRawValue() as Task;
+    tarea.created_at = new Date().toISOString().split('T')[0];
 
-  //   const dropdown:HTMLSelectElement = document.getElementById("projectTipeSelector") as HTMLSelectElement;
-
-  //   if (this.orgId? > 0) {
-  //     this.tasksService.makePersonalTask(this.orgId?, task)
-  //     .subscribe({
-  //       next:(val) => {
-  //         this.formulario.reset();
-  //         this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
-  //         this.router.navigate(["/app"]);
-  //       },
-  //       error:(e) => {
-  //         this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
-  //       }
-  //     });
-  //   } else {
-  //     this.projectsService.makePersonalProject(proyecto)
-  //     .subscribe({
-  //       next:(val) => {
-  //         this.formulario.reset();
-  //         this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
-  //         this.router.navigate(["/app"]);
-  //       },
-  //       error:(e) => {
-  //         this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
-  //       }
-  //     });
-  //   }
+    // if (this.orgId? > 0) {
+    //   this.tasksService.makePersonalTask(this.orgId?, task)
+    //   .subscribe({
+    //     next:(val) => {
+    //       this.formulario.reset();
+    //       this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
+    //       this.router.navigate(["/app"]);
+    //     },
+    //     error:(e) => {
+    //       this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
+    //     }
+    //   });
+    // } else {
+    //   this.projectsService.makePersonalProject(proyecto)
+    //   .subscribe({
+    //     next:(val) => {
+    //       this.formulario.reset();
+    //       this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
+    //       this.router.navigate(["/app"]);
+    //     },
+    //     error:(e) => {
+    //       this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
+    //     }
+    //   });
+    // }
     
-  // }
+  }
 }
