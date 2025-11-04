@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Organization, OrganizationMembership } from '../models/organization.model';
 import { ApiGateway } from './api-gateway';
+import { Role } from '../models/role.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationsService {
   constructor(private apiGateWay:ApiGateway) {  }
+
+  getOrganizationRoles():Observable<Role[]> {
+    return this.apiGateWay.get(`roles/`);
+  }
 
   makeOrganization(organization: Organization):Observable<any> {
     return this.apiGateWay.post("organizations/", organization);

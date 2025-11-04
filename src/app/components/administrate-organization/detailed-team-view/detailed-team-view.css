@@ -1,3 +1,9 @@
+.main-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 1fr 4fr 4fr;
+}
+
 .goBackBtn {
     background-color: var(--tertiary-bg-color);
     color: var(--main-bg-color);
@@ -72,4 +78,20 @@
     border: 1px solid var(--main-bg-color);
     font-weight: 700;
     border-radius: 60px;
+}
+
+.newMembersList button {
+    margin-top: .9rem;
+    background-color: var(--tertiary-bg-color);
+    color: var(--main-bg-color);
+    font-weight: 400;
+    font-size: 1.1rem;
+    min-width: 25%;
+    min-height: 35px;
+    border-radius: 16px;
+
+    outline: none;
+    border: 1px solid var(--main-bg-color);
+
+    cursor: pointer;
 }
