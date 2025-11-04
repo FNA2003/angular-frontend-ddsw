@@ -5,17 +5,17 @@
             TAREAS DEL PROYECTO PERSONAL
         </span>
     </div>
+    <app-task-editor-creator
+        [orgId]="undefined"
+        [proyId]="project_id"
+        [task]="editing"
+        (save)="onSave($event)"
+        (cancelled)="editing = null"/>
     
     <div class="projects-container">
         @for(tarea of tasks; track tarea.id) {
             <!-- Acá verificamos si se quiere editar la tarea que se renderizó en esta iteración -->
             @if(editTaskId === tarea.id) {
-                <app-task-editor-creator
-                    [orgId]="undefined"
-                    [proyId]="project_id"
-                    [task]="tarea"
-                    (save)="onSave($event)"
-                    (cancel)="editTaskId = null"/>
             }
             @else {
                 <div class='project-container pers'>
@@ -24,7 +24,7 @@
                         <div>
                             <button class="proyect-edit-button" (click)="deleteTask(tarea)">
                                 <i class="bi bi-trash"></i></button>
-                            <button class="proyect-edit-button" (click)="editTaskId = tarea.id">
+                            <button class="proyect-edit-button" (click)="editing = tarea">
                                 <i class="bi bi-pencil"></i></button>
                         </div>
                     </div>
@@ -35,11 +35,11 @@
                 </div>
             }
         }
-    <div class="actions-footer">
     </div>
-</div>
+    <!--
     <app-task-editor-creator 
     [proyId]="project_id" 
     [orgId]="undefined"
     (cancelled)="onCancelled()">
-    <button class="btn-pill btn-close" (click)="closeTasks()">Cerrar Tareas</button>
+    <button class="btn-pill btn-close" (click)="closeTasks()">Cerrar Tareas</button>-->
+    <button (click)="newTask()">Crear Tarea</button>
