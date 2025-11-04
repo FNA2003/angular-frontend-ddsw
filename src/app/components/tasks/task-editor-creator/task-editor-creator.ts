@@ -9,6 +9,10 @@ import { UserDataService } from '../../../services/user-data-service';
 import { ErrorParserService } from '../../../services/error-parser-service';
 import { Task } from '../../../models/task.model';
 import { TasksService } from '../../../services/tasksService';
+import { Team, TeamMembership } from '../../../models/team.model';
+import { OrganizationMembership } from '../../../models/organization.model';
+import { TeamsService } from '../../../services/teamsService';
+import { OrganizationsService } from '../../../services/organizationsService';
 
 @Component({
   selector: 'app-task-editor-creator',
@@ -17,88 +21,157 @@ import { TasksService } from '../../../services/tasksService';
   styleUrl: './task-editor-creator.css'
 })
 export class EditTask {
-  @Input() task:Task|null = null; //null : crea una tarea. not null: edita tarea
+  @Input() task:Task|null = null; // Da una tarea vacia si se quiere crear una tarea, o una tarea ya creada cuando se quiere editar
+  @Input() orgId?: number;
+  @Input() proyId?: number;
   
   @Output() save = new EventEmitter<Task>();
   @Output() cancelled = new EventEmitter<void>();
 
   formulario:FormGroup = new FormGroup({});
 
-  @Input() orgId?: number;
-  @Input() proyId?: number;
+  relateTasks: Task[] = [];
+  relateTeams: Team[] = [];
+  relateUsers: OrganizationMembership[] = [];
 
-  availableTasks: Task[] = [];
+
+  newTask:boolean = false;
 
   constructor (private toastr:ToastrService, 
                private projectService:ProjectsService,
                private userDataService:UserDataService,
                private errorParserService:ErrorParserService,
-               private tasksService:TasksService) {  }
+               private tasksService:TasksService,
+               private teamsService:TeamsService,
+               private organizationService:OrganizationsService) {  }
 
   ngOnInit() {
+    // Chequeo si se quiere crear una tarea o editar otra
+    this.newTask = this.task?.name === undefined;
+
+    // Campos usables en el formulario para el modelo de tarea
     this.formulario = new FormGroup({
-      // Los campos que se pueden editar
-      name:new FormControl(this.task?.name, [Validators.required, Validators.maxLength(32)]),
-      description:new FormControl(this.task?.description),
-      expiration_datetime:new FormControl(this.task?.expiration_datetime),
+      name: new FormControl(this.task?.name, [Validators.required, Validators.maxLength(32), Validators.minLength(4)]),
+      description: new FormControl(this.task?.description, [Validators.required]),
+      expiration_datetime:new FormControl(this.task?.expiration_datetime, [Validators.required]),
 
-      predecessors_ids:new FormControl(this.task?.predecessors_ids, [Validators.required, Validators.maxLength(32)]),
-      users_ids:new FormControl(this.task?.users_ids, [Validators.required, Validators.maxLength(32)]),
-      teams_ids:new FormControl(this.task?.teams_ids, [Validators.required, Validators.maxLength(32)]),
-
-      // Estos no :/
+      // Campos no editables
       id:new FormControl(this.task?.id),
       created_at:new FormControl(this.task?.created_at),
       completed:new FormControl(this.task?.completed),
       project:new FormControl(this.task?.project),
 
-      predecessors:new FormControl(this.task?.predecessors),
-      assigned_users:new FormControl(this.task?.assigned_users),
-      assigned_teams:new FormControl(this.task?.assigned_teams)  
+      // El resto de campos de escritura, se manejan fuera de acá, pues no son HTML types
     });
-    this.tasksService.getPersonalTasks(this.proyId as number).subscribe(tasks => {
-      this.availableTasks = tasks;
-    });
+
+    this.formulario.addControl('predecessors_ids', new FormControl([]));
+    this.formulario.addControl('teams_ids', new FormControl([]));
+    this.formulario.addControl('users_ids', new FormControl([]));
+
+    // Obtenemos los posibles datos a usar de la organización
+    if (this.orgId !== null && this.orgId !== undefined) {
+      this.teamsService.getOrganizationTeams(this.orgId as number)
+        .subscribe({
+          next: v => {
+            this.relateTeams = v;
+          },
+          error: e => {
+            this.toastr.error(this.errorParserService.parseBackendError(e), "Error tratando de obtener los datos de los equipos disponibles");
+          }
+        });
+      this.organizationService.getOrganizationUsers(this.orgId as number)
+        .subscribe({
+          next: v => {
+            this.relateUsers = v;
+          },
+          error: e => {
+            this.toastr.error(this.errorParserService.parseBackendError(e), "Error tratando de obtener los usuarios de la organización")
+          }
+        });
+      this.tasksService.getOrganizationTasks(this.orgId as number, this.proyId as number)
+        .subscribe({
+          next: v => {
+            this.relateTasks = v;
+          },
+          error: e => {
+            this.toastr.error(this.errorParserService.parseBackendError(e), "Error tratando de obtener las tareas del proyecto")
+          }
+        });
+    } else {
+      this.tasksService.getPersonalTasks(this.proyId as number)
+        .subscribe({
+          next: v => {
+            this.relateTasks = v;
+          },
+          error: e => {
+            this.toastr.error(this.errorParserService.parseBackendError(e), "Error tratando de obtener las tareas relacionadas");
+          }
+        });
+    }
   }
 
-  // onSubmit() {
-  //   if (this.formulario.invalid) {
-  //     console.log(this.formulario.getRawValue());
-      
-  //     this.toastr.warning("Cerciorese de que todos los campos requeridos estén completos y en el formato pedido.", "Error en los campos!");
-  //     return;
-  //   }
 
-  //   const proyecto = this.formulario.getRawValue() as Project;
-  //   proyecto.created_at = new Date().toISOString().split('T')[0];
+  submit() {
+    if(this.formulario.invalid) {
+      this.toastr.warning("Uno o varios campos no tienen el formato requerido", "No se cargará la tarea");
+      return;
+    }
 
-  //   const dropdown:HTMLSelectElement = document.getElementById("projectTipeSelector") as HTMLSelectElement;
+    const tarea:Task = this.formulario.getRawValue();
+    tarea.users_ids = this.formulario.value.users_ids;
+    tarea.teams_ids = this.formulario.value.teams_ids;
+    tarea.predecessors_ids = this.formulario.value.predecessors_ids;
 
-  //   if (this.orgId? > 0) {
-  //     this.tasksService.makePersonalTask(this.orgId?, task)
-  //     .subscribe({
-  //       next:(val) => {
-  //         this.formulario.reset();
-  //         this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
-  //         this.router.navigate(["/app"]);
-  //       },
-  //       error:(e) => {
-  //         this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
-  //       }
-  //     });
-  //   } else {
-  //     this.projectsService.makePersonalProject(proyecto)
-  //     .subscribe({
-  //       next:(val) => {
-  //         this.formulario.reset();
-  //         this.toastr.success("Proyecto creado correctamente", "Éxito al crear el proyecto");
-  //         this.router.navigate(["/app"]);
-  //       },
-  //       error:(e) => {
-  //         this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear el proyecto!");
-  //       }
-  //     });
-  //   }
-    
-  // }
+    if (this.newTask) {
+      // Nueva tarea organizacional
+      if (this.orgId !== null && this.orgId != undefined) {
+        this.tasksService.makeOrganizationTask(this.orgId, this.proyId as number, tarea)
+          .subscribe({
+            next: v => {
+              this.save.emit(v)
+            },
+            error: e => {
+              this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear una tarea organizacional");
+            }
+          });
+      } 
+      // Nueva tarea personal
+      else {
+        this.tasksService.makePersonalTask(this.proyId as number, tarea)
+          .subscribe({
+            next: v => {
+              this.save.emit(v)
+            },
+            error: e => {
+              this.toastr.error(this.errorParserService.parseBackendError(e), "Error al crear una tarea personal");
+            }
+          });
+      }
+    } else {
+      // Edición de tarea organizacional
+      if (this.orgId !== null && this.orgId != undefined) {
+        this.tasksService.editOrganizationTask(this.orgId, this.proyId as number,tarea)
+          .subscribe({
+            next: v => {
+              this.save.emit(v)
+            },
+            error: e => {
+              this.toastr.error(this.errorParserService.parseBackendError(e), "Error al editar una tarea organizacional");
+            }
+          });
+      } 
+      // Edición de tarea personal
+      else {
+        this.tasksService.editPersonalTask(this.proyId as number, tarea)
+          .subscribe({
+            next: v => {
+              this.save.emit(v)
+            },
+            error: e => {
+              this.toastr.error(this.errorParserService.parseBackendError(e), "Error al editar una tarea personal");
+            }
+          });
+      }
+    }
+  }
 }

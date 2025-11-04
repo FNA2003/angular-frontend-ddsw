@@ -12,29 +12,29 @@ export class TasksService {
   // -------- Tareas personales --------------
 
   getPersonalTasks(project_id:number):Observable<Task[]> {
-    return this.apiGateWay.get(`projects/${project_id}/tasks`);
+    return this.apiGateWay.get(`projects/${project_id}/tasks/`);
   }
-  makePersonalTask(task:Task):Observable<Task> {
-    return this.apiGateWay.post(`projects/${task.project}/tasks/`, task);
+  makePersonalTask(project_id:number, task:Task):Observable<Task> {
+    return this.apiGateWay.post(`projects/${project_id}/tasks/`, task);
   }
-  editPersonalTask(task:Task):Observable<Task> {
-    return this.apiGateWay.patch(`projects/${task.project}/tasks/${task.id}`, task);
+  editPersonalTask(project_id:number, task:Task):Observable<Task> {
+    return this.apiGateWay.patch(`projects/${project_id}/tasks/${task.id}/`, task);
   }
   removePersonalTask(project_id:number, task_id:number):Observable<any> {
-    return this.apiGateWay.delete(`projects/${project_id}/tasks/${task_id}`);
+    return this.apiGateWay.delete(`projects/${project_id}/tasks/${task_id}/`);
   }
 
 
   // -------- Tareas organizacionales --------------
 
   getOrganizationTasks(org_id:number, project_id:number):Observable<Task[]> {
-    return this.apiGateWay.get(`organizations/${org_id}/projects/${project_id}/tasks`);
+    return this.apiGateWay.get(`organizations/${org_id}/projects/${project_id}/tasks/`);
   }
-  makeOrganizationTask(org_id:number, task:Task):Observable<Task> {
-    return this.apiGateWay.post(`organizations/${org_id}/projects/${task.project}/tasks/`, task);
+  makeOrganizationTask(org_id:number, project_id:number, task:Task):Observable<Task> {
+    return this.apiGateWay.post(`organizations/${org_id}/projects/${project_id}/tasks/`, task);
   }
-  editOrganizationTask(org_id:number, task:Task):Observable<Task> {
-    return this.apiGateWay.patch(`organizations/${org_id}/projects/${task.project}/tasks/${task.id}/`, task);
+  editOrganizationTask(org_id:number, project_id:number, task:Task):Observable<Task> {
+    return this.apiGateWay.patch(`organizations/${org_id}/projects/${project_id}/tasks/${task.id}/`, task);
   }
   removeOrganizationTask(org_id:number, project_id:number, task_id:number):Observable<any> {
     return this.apiGateWay.delete(`organizations/${org_id}/projects/${project_id}/tasks/${task_id}/`);
@@ -42,11 +42,11 @@ export class TasksService {
 
 
   completePersonalTask(project_id:number, task_id:number) {
-  return this.apiGateWay.post(`projects/${project_id}/tasks/${task_id}/complete`, {});
+  return this.apiGateWay.post(`projects/${project_id}/tasks/${task_id}/complete/`, {});
   }
 
   completeOrganizationTask(org_id:number, project_id:number, task_id:number) {
-  return this.apiGateWay.post(`organizations/${org_id}/projects/${project_id}/tasks/${task_id}/complete`, {});
+  return this.apiGateWay.post(`organizations/${org_id}/projects/${project_id}/tasks/${task_id}/complete/`, {});
   }
 
 }

@@ -1,71 +1,64 @@
-<form [formGroup]="formulario" (ngSubmit)="submit()" class="task-form">
-  <!-- Contenedor principal -->
-  <div [ngClass]="['task-container', (orgId != null) ? 'org' : 'pers']" style="display:block;">
+@if (task !== null) {
+  <form [formGroup]="formulario" (ngSubmit)="submit()" class="task-form">
 
-    <!-- 🏷️ Cabecera -->
-    <div class="task-header">
-      <span>
-        <!-- Título dinámico -->
-        {{ task ? 'Editar tarea' : 'Nueva tarea' }}
-        <ng-container *ngIf="orgId != null">
-          (Proyecto organizacional)
-        </ng-container>
-        <ng-container *ngIf="orgId == null">
-          (Proyecto personal)
-        </ng-container>
-      </span>
+    <div [ngClass]="['task-container', (orgId != null) ? 'org' : 'pers']">
+      <div class="task-header">
+        <span>
+          <!-- Título dinámico -->
+          {{ newTask ? 'Nueva tarea' : 'Editar tarea' }}
+          @if(orgId !== null) {
+            (Proyecto personal)
+          } @else {
+            (Proyecto organizacional)
+          }
+        </span>
 
-      <div>
-        <button type="button" class="task-edit-button" (click)="cancelled.emit()">
-          <i class="bi bi-x-circle"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- 🧾 Campos comunes -->
-    <div class="task-fields">
-      <label>Nombre</label>
-      <input type="text" formControlName="name" placeholder="Nombre de la tarea" />
-
-      <label>Descripción</label>
-      <textarea formControlName="description" rows="3"></textarea>
-
-      <label>Fecha límite</label>
-      <input type="date" formControlName="expiration_datetime" />
-
-      <div class="row" style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;">
-        <input id="completed" type="checkbox" formControlName="completed" />
-        <label for="completed">Completada</label>
+        <div>
+          <button type="button" class="task-edit-button" (click)="cancelled.emit()">
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
       </div>
 
-      <!-- 🔀 Lista de predecesoras -->
-      <label>Tareas predecesoras (opcional)</label>
-      <select formControlName="tareas_predecesoras" multiple size="4">
-        <option *ngFor="let t of availableTasks" [ngValue]="t.id">{{ t.name }}</option>
-      </select>
-    </div>
+      <div class="fields-container">
+        <div class="task-fields-left">
+          <label>Nombre</label>
+          <input type="text" formControlName="name" placeholder="Nombre de la tarea" minlength="4" maxlength="32"/>
 
-    <!-- 🧱 Bloques diferenciados -->
-    <div *ngIf="orgId != null" class="task-extra org">
-      <hr />
-      <p><strong>Modo organizacional:</strong> las tareas aquí afectan a todos los miembros de la organización.</p>
-      <p>Organización ID: {{ orgId }}</p>
-      <p>Proyecto ID: {{ proyId }}</p>
-    </div>
+          <label>Descripción</label>
+          <textarea formControlName="description"></textarea>
 
-    <div *ngIf="orgId == null" class="task-extra pers">
-      <hr />
-      <p><strong>Modo personal:</strong> las tareas son privadas para tu cuenta.</p>
-      <p>Proyecto personal ID: {{ proyId }}</p>
-    </div>
+          <label>Tareas Predecesoras</label>
+          <select formControlName="predecessors_ids" multiple>
+            @for (tarea of relateTasks; track tarea.id) {
+              <option [value]="tarea.id">{{ tarea.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="task-fields-right">
+          <label>Fecha Límite (si se tiene): </label>
+          <input type="date" formControlName="expiration_datetime" />
 
-    <!-- 🖱️ Botones -->
-    <div style="text-align:center; margin-top: .75rem;">
-      <button type="submit">
-        {{ task ? 'Guardar cambios' : 'Crear tarea' }}
-      </button>
-      <button type="button" (click)="cancelled.emit()">Cancelar</button>
-    </div>
+          <button style="margin: auto 2rem; width: 70%;" type="submit">
+            {{ newTask ? 'Guardar cambios' : 'Crear tarea' }}
+          </button>
 
-  </div>
-</form>
+          @if(orgId !== undefined) {
+            <label>Equipos Asignados</label>
+            <select formControlName="teams_ids" multiple>
+              @for (team of relateTeams; track team.id) {
+                <option [value]="team.id">{{ team.name }}</option>
+              }
+            </select>
+            <label>Usuarios Asignados</label>
+            <select formControlName="users_ids" multiple>
+              @for (user of relateUsers; track user.id) {
+                <option [value]="user.id">{{ user.user_username }}</option>
+              }
+            </select>
+          }
+        </div>
+      </div>
+    </div>
+  </form>
+}

@@ -22,7 +22,7 @@ export class Task {
   assigned_teams?: Team[];
 
   // Campos 'Write-only'
-    predecessors_ids?: number[];
-    users_ids?: number[];
-    teams_ids?: number[];
+  predecessors_ids?: number[];
+  users_ids?: number[];
+  teams_ids?: number[];
 }
