@@ -31,7 +31,7 @@
             @if (showRoleOptions[member.user]) {
                 @for (role of ORGANIZATION_ROLES; track role) {
                     <button (click)="changeUserRole(member, role)">
-                    {{ formatedRole(role) }}
+                    {{ formatedRole(role.name) }}
                     </button>
                 }
             }

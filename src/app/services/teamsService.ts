@@ -36,15 +36,15 @@ export class TeamsService {
     return this.apiGateWay.get(`organizations/${org_id}/teams/${team_id}/memberships/`);
   }
 
-  addTeamMember(team_id:number, user:TeamMembership):Observable<TeamMembership> {
-    return this.apiGateWay.post(`teams/${team_id}/memberships/`, user);
+  addTeamMember(org_id:number, team_id:number, user_organization_membership_id:number):Observable<TeamMembership> {
+    return this.apiGateWay.post(`organizations/${org_id}/teams/${team_id}/memberships/`, {"user":user_organization_membership_id});
   }
 
-  changeTeamRole(org_id:number, team_id:number, user_org_membership_id:number, teamMemb:TeamMembership):Observable<TeamMembership> {
-    return this.apiGateWay.patch(`organizations/${org_id}/teams/${team_id}/memberships/${user_org_membership_id}/`, teamMemb);
+  changeTeamRole(org_id:number, team_id:number, user_organization_membership_id:number, teamMemb:TeamMembership):Observable<TeamMembership> {
+    return this.apiGateWay.patch(`organizations/${org_id}/teams/${team_id}/memberships/${user_organization_membership_id}/`, teamMemb);
   }
 
-  removeUserFromTeam(org_id:number, team_id:number, user_org_membership_id:number):Observable<any> {
-    return this.apiGateWay.delete(`organizations/${org_id}/teams/${team_id}/memberships/${user_org_membership_id}/`);
+  removeUserFromTeam(org_id:number, team_id:number, user_organization_membership_id:number):Observable<any> {
+    return this.apiGateWay.delete(`organizations/${org_id}/teams/${team_id}/memberships/${user_organization_membership_id}/`);
   }
 }

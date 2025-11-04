@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { OrganizationMembership } from '../../../models/organization.model';
 import { DatePipe } from '@angular/common';
-import { RoleName } from '../../../models/role.model';
+import { Role, RoleName } from '../../../models/role.model';
 import { OrganizationsService } from '../../../services/organizationsService';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorParserService } from '../../../services/error-parser-service';
@@ -16,17 +16,26 @@ export class OrganizationsMembersList {
   @Input() organizationMembers:OrganizationMembership[] = [];
   @Input() organizationId:number = -1;
 
-  ORGANIZATION_ROLES: RoleName[] = [
-    'organization_admin',
-    'organization_member',
-    'organization_project_creator',
-    'organization_team_creator',
-  ];
+  ORGANIZATION_ROLES: Role[] = [];
   showRoleOptions: { [userId: string]: boolean } = {};
 
   constructor(private organizationService:OrganizationsService,
               private toastr:ToastrService,
               private errorParser:ErrorParserService) {  }
+
+  ngOnInit() {
+    this.organizationService.getOrganizationRoles()
+      .subscribe({
+        next:v => {
+          v.forEach(element => {
+            if(element.scope === "organization") this.ORGANIZATION_ROLES.push(element);
+          });
+        },
+        error:(e) => {
+          this.toastr.error(this.errorParser.parseBackendError(e), "Error tratando de obtener los roles de la organización");
+        }
+      });
+  }
 
   formatedRole(role:String|undefined):string {
     if (!role) return '';
@@ -40,11 +49,10 @@ export class OrganizationsMembersList {
     this.showRoleOptions[usr_id] = !this.showRoleOptions[usr_id];
   }
 
-  changeUserRole(user:OrganizationMembership, newRole: RoleName): void {
+  changeUserRole(user:OrganizationMembership, newRole: Role): void {
     const aux:OrganizationMembership = new OrganizationMembership();
     aux.user = user.user;
-    aux.role_name = newRole;
-    aux.role = this.ORGANIZATION_ROLES.indexOf(newRole) + 1;
+    aux.role = newRole.id;
     
 
     this.organizationService.changeOrganizationUserRole(this.organizationId, aux)
