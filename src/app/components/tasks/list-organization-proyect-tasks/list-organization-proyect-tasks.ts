@@ -7,14 +7,14 @@ import { TasksService } from '../../../services/tasksService';
 import { Task } from '../../../models/task.model';
 import { EditTask } from "../task-editor-creator/task-editor-creator";
 
-
 @Component({
   selector: 'app-list-organization-proyect-tasks',
+  standalone: true,
   imports: [EditTask],
   templateUrl: './list-organization-proyect-tasks.html',
   styleUrl: './list-organization-proyect-tasks.css'
 })
-export class ListPersonalProyectTasks {
+export class ListOrganizationProyectTasks {
   project_id:number = -1;
   organization_id:number = -1;
   tasks:Task[] = [];

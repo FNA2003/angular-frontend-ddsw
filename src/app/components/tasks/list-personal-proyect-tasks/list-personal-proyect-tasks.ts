@@ -32,7 +32,7 @@ export class ListPersonalProyectTasks {
 
   ngOnInit() {
     const project_id = Number(this.route.snapshot.paramMap.get('project_id'));
-
+    console.log(this.constructor.name);
 
     if ((!project_id || isNaN(Number(project_id)))) {
       this.router.navigate(['/app'])
