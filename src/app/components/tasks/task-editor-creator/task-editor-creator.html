@@ -1,1 +1,71 @@
-<p>task-editor-creator works!</p>
+<form [formGroup]="formulario" (ngSubmit)="submit()" class="task-form">
+  <!-- Contenedor principal -->
+  <div [ngClass]="['task-container', (orgId != null) ? 'org' : 'pers']" style="display:block;">
+
+    <!-- 🏷️ Cabecera -->
+    <div class="task-header">
+      <span>
+        <!-- Título dinámico -->
+        {{ task ? 'Editar tarea' : 'Nueva tarea' }}
+        <ng-container *ngIf="orgId != null">
+          (Proyecto organizacional)
+        </ng-container>
+        <ng-container *ngIf="orgId == null">
+          (Proyecto personal)
+        </ng-container>
+      </span>
+
+      <div>
+        <button type="button" class="task-edit-button" (click)="cancelled.emit()">
+          <i class="bi bi-x-circle"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 🧾 Campos comunes -->
+    <div class="task-fields">
+      <label>Nombre</label>
+      <input type="text" formControlName="name" placeholder="Nombre de la tarea" />
+
+      <label>Descripción</label>
+      <textarea formControlName="description" rows="3"></textarea>
+
+      <label>Fecha límite</label>
+      <input type="date" formControlName="expiration_datetime" />
+
+      <div class="row" style="display:flex;align-items:center;gap:.5rem;margin:.5rem 0;">
+        <input id="completed" type="checkbox" formControlName="completed" />
+        <label for="completed">Completada</label>
+      </div>
+
+      <!-- 🔀 Lista de predecesoras -->
+      <label>Tareas predecesoras (opcional)</label>
+      <select formControlName="tareas_predecesoras" multiple size="4">
+        <option *ngFor="let t of availableTasks" [ngValue]="t.id">{{ t.name }}</option>
+      </select>
+    </div>
+
+    <!-- 🧱 Bloques diferenciados -->
+    <div *ngIf="orgId != null" class="task-extra org">
+      <hr />
+      <p><strong>Modo organizacional:</strong> las tareas aquí afectan a todos los miembros de la organización.</p>
+      <p>Organización ID: {{ orgId }}</p>
+      <p>Proyecto ID: {{ proyId }}</p>
+    </div>
+
+    <div *ngIf="orgId == null" class="task-extra pers">
+      <hr />
+      <p><strong>Modo personal:</strong> las tareas son privadas para tu cuenta.</p>
+      <p>Proyecto personal ID: {{ proyId }}</p>
+    </div>
+
+    <!-- 🖱️ Botones -->
+    <div style="text-align:center; margin-top: .75rem;">
+      <button type="submit">
+        {{ task ? 'Guardar cambios' : 'Crear tarea' }}
+      </button>
+      <button type="button" (click)="cancelled.emit()">Cancelar</button>
+    </div>
+
+  </div>
+</form>

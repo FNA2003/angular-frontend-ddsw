@@ -1,1 +1,45 @@
-<p>list-personal-proyect-tasks works!</p>
+<div class='main-container pers'>
+    
+    <div class='title-container pers'>
+        <span>
+            TAREAS DEL PROYECTO PERSONAL
+        </span>
+    </div>
+    
+    <div class="projects-container">
+        @for(tarea of tasks; track tarea.id) {
+            <!-- Acá verificamos si se quiere editar la tarea que se renderizó en esta iteración -->
+            @if(editTaskId === tarea.id) {
+                <app-task-editor-creator
+                    [orgId]="undefined"
+                    [proyId]="project_id"
+                    [task]="tarea"
+                    (save)="onSave($event)"
+                    (cancel)="editTaskId = null"/>
+            }
+            @else {
+                <div class='project-container pers'>
+                    <div class="project-header">
+                        <span>Tarea: "{{ tarea.name }}"</span>
+                        <div>
+                            <button class="proyect-edit-button" (click)="deleteTask(tarea)">
+                                <i class="bi bi-trash"></i></button>
+                            <button class="proyect-edit-button" (click)="editTaskId = tarea.id">
+                                <i class="bi bi-pencil"></i></button>
+                        </div>
+                    </div>
+                    <div class="project-description">
+                        <p>{{ tarea.description }}</p>
+                    </div>
+        
+                </div>
+            }
+        }
+    <div class="actions-footer">
+    </div>
+</div>
+    <app-task-editor-creator 
+    [proyId]="project_id" 
+    [orgId]="undefined"
+    (cancelled)="onCancelled()">
+    <button class="btn-pill btn-close" (click)="closeTasks()">Cerrar Tareas</button>
