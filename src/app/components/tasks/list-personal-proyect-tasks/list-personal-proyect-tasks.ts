@@ -23,7 +23,6 @@ export class ListPersonalProyectTasks {
   showEditor = false;              // controla el *ngIf del editor
   editing: Task | null = null;     // tarea en edición (o null si es creación)
 
-
   constructor(private route: ActivatedRoute,
               private router:Router,
               private toastr:ToastrService,
@@ -33,7 +32,7 @@ export class ListPersonalProyectTasks {
 
   ngOnInit() {
     const project_id = Number(this.route.snapshot.paramMap.get('project_id'));
-
+    console.log(this.constructor.name);
 
     if ((!project_id || isNaN(Number(project_id)))) {
       this.router.navigate(['/app'])
@@ -52,16 +51,7 @@ export class ListPersonalProyectTasks {
 
   /* Atrapo el emmiter de 'editor-creator-task' para mostrar la tarea actualizada sin volver a consultar el back */
   onSave(updatedTask:Task) {
-    if(this.editing?.id as number === updatedTask.id) { // Esto es una tarea editandosé 
-    }else { // Tarea nueva
-
-    }
-    let x;
-    for(x = 0; x < this.tasks.length; x++) {
-      if (this.tasks[x].id === updatedTask.id) { break; }
-    }
-    this.tasks[x] = updatedTask;
-    this.editTaskId = null;
+    window.location.reload();
   }
 
   deleteTask(task:Task) {
