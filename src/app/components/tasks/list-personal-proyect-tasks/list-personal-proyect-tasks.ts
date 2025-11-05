@@ -54,6 +54,19 @@ export class ListPersonalProyectTasks {
     window.location.reload();
   }
 
+  completeTask(task:Task) {
+    this.tasksService.completePersonalTask(this.project_id, task.id as number)
+      .subscribe({
+        next: v=> {
+          this.toastr.success(`Se completo ${task.name}`, "Éxito al completar la tarea");
+          location.reload();
+        },
+        error: e => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de completar una tarea");
+        }
+      });
+  }
+
   deleteTask(task:Task) {
       this.tasksService.removePersonalTask(this.project_id, task.id as number)
         .subscribe({

@@ -6,11 +6,12 @@ import { ProjectsService } from '../../../services/projectsService';
 import { TasksService } from '../../../services/tasksService';
 import { Task } from '../../../models/task.model';
 import { EditTask } from "../task-editor-creator/task-editor-creator";
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-list-organization-proyect-tasks',
   standalone: true,
-  imports: [EditTask],
+  imports: [EditTask, DatePipe],
   templateUrl: './list-organization-proyect-tasks.html',
   styleUrl: './list-organization-proyect-tasks.css'
 })
@@ -19,6 +20,7 @@ export class ListOrganizationProyectTasks {
   organization_id:number = -1;
   tasks:Task[] = [];
   editTaskId:number|null|undefined = null;
+  editingBool:boolean = false;
 
   showEditor = false;              // controla el *ngIf del editor
   editing: Task | null = null;     // tarea en edición (o null si es creación)
@@ -55,8 +57,21 @@ export class ListOrganizationProyectTasks {
     window.location.reload();
   }
 
+  completeTask(task:Task) {
+    this.tasksService.completeOrganizationTask(this.organization_id, this.project_id, task.id as number)
+      .subscribe({
+        next: v=> {
+          this.toastr.success(`Se completo ${task.name}`, "Éxito al completar la tarea");
+          location.reload();
+        },
+        error: e => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de completar una tarea");
+        }
+      });
+  }
+
   deleteTask(task:Task) {
-      this.tasksService.removePersonalTask(this.project_id, task.id as number)
+      this.tasksService.removeOrganizationTask(this.organization_id, this.project_id, task.id as number)
         .subscribe({
           next: (v:any) => {
             this.toastr.success("Se eliminó correctamente la tarea", "Éxito al eliminar la tarea");
@@ -77,10 +92,11 @@ export class ListOrganizationProyectTasks {
   onCancelled() {
     this.showEditor = false;
     this.editing = null;
+    this.editingBool = false;
   }
 
   newTask() {
-    if (this.editing === null) this.editing = new Task();
+    if (this.editing === null) {this.editing = new Task(); this.editingBool = false;}
     else this.editing = null;
   }
 

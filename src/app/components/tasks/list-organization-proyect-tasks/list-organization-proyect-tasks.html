@@ -15,24 +15,39 @@
                     <div class="project-header">
                         <span>Tarea: "{{ tarea.name }}"</span>
                         <div>
+                            @if (!tarea.completed) {
+                                <button class="proyect-edit-button" (click)="completeTask(tarea)">
+                                    <i class="bi bi-check2-circle"></i></button>
+                            }@else {
+                                <i class="bi bi-check-circle"></i>
+
+                            }
                             <button class="proyect-edit-button" (click)="deleteTask(tarea)">
                                 <i class="bi bi-trash"></i></button>
-                                <button class="proyect-edit-button" (click)="editing = tarea">
+                                <button class="proyect-edit-button" (click)="editing = tarea; editingBool = true">
                                 <i class="bi bi-pencil"></i></button>
                             </div>
+                    </div>
+                    <div>
+                        <p>Fecha límite {{ tarea.expiration_datetime | date }}</p>
                     </div>
                     <div class="project-description">
                         <p>{{ tarea.description }}</p>
                     </div>
                      <div class="project-description">
-                        <p>Predecesoras: {{ tarea.predecessors }}</p>
+                        @if(tarea.predecessors && tarea.predecessors.length > 0) {
+                            <p>Tareas predecesoras:</p>
+                            @for (pred of tarea.predecessors; track pred.id) {
+                                <p style="font-weight: bolder;">- '{{ pred.name }}'</p>
+                            }
+                        }
                     </div>   
                 </div>
             }
         }
     </div>
     <app-task-editor-creator
-        [orgId]="undefined"
+        [orgId]="organization_id"
         [proyId]="project_id"
         [task]="editing"
         (save)="onSave($event)"
