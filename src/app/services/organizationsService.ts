@@ -3,12 +3,21 @@ import { Observable } from 'rxjs';
 import { Organization, OrganizationMembership } from '../models/organization.model';
 import { ApiGateway } from './api-gateway';
 import { Role } from '../models/role.model';
+import { ProjectUserMembership } from '../models/project.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationsService {
   constructor(private apiGateWay:ApiGateway) {  }
+
+  getProjectMembers(org_id:number, project_id:number):Observable<ProjectUserMembership[]> {
+    return this.apiGateWay.get(`organizations/${org_id}/projects/${project_id}/members`);
+  }
+
+  addProjectMember(org_id:number, project_id:number, org_membership_id:number):Observable<ProjectUserMembership> {
+    return this.apiGateWay.post(`organizations/${org_id}/projects/${project_id}/members`, { "user":org_membership_id });
+  }
 
   getOrganizationRoles():Observable<Role[]> {
     return this.apiGateWay.get(`roles/`);

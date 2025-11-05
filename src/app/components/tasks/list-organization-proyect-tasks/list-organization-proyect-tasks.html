@@ -20,7 +20,6 @@
                                     <i class="bi bi-check2-circle"></i></button>
                             }@else {
                                 <i class="bi bi-check-circle"></i>
-
                             }
                             <button class="proyect-edit-button" (click)="deleteTask(tarea)">
                                 <i class="bi bi-trash"></i></button>
@@ -34,29 +33,49 @@
                     <div class="project-description">
                         <p>{{ tarea.description }}</p>
                     </div>
-                     <div class="project-description">
+                    <div class="project-description">
                         @if(tarea.predecessors && tarea.predecessors.length > 0) {
                             <p>Tareas predecesoras:</p>
                             @for (pred of tarea.predecessors; track pred.id) {
                                 <p style="font-weight: bolder;">- '{{ pred.name }}'</p>
                             }
                         }
-                    </div>   
+                    </div>
+                    <div>
+                        @if(tarea.assigned_teams && tarea.assigned_teams.length > 0) {
+                            <p>Equipos asignados</p>
+                            @for(team of tarea.assigned_teams; track team.id) {
+                                <p style="font-style: italic;">{{ team.name }}</p>
+                            }
+                        }
+                    </div>
+                    <div>
+                        @if(tarea.assigned_users && tarea.assigned_users.length > 0) {
+                            <p>Usuarios asignados</p>
+                            @for(user of tarea.assigned_users; track user.id) {
+                                <p style="font-style: italic;">{{ user.username }}</p>
+                            }
+                        }
+                    </div>
                 </div>
             }
         }
     </div>
-    <app-task-editor-creator
-        [orgId]="organization_id"
-        [proyId]="project_id"
-        [task]="editing"
-        (save)="onSave($event)"
-        (cancelled)="editing = null"/>
-    
-    <!--
-        <app-task-editor-creator 
-        [proyId]="project_id" 
-        [orgId]="undefined"
-        (cancelled)="onCancelled()">
-        <button class="btn-pill btn-close" (click)="closeTasks()">Cerrar Tareas</button>-->
-        <button (click)="newTask()">Crear Tarea</button>
+    @if (editing !== null) {
+        <app-task-editor-creator
+            [orgId]="organization_id"
+            [proyId]="project_id"
+            [task]="editing"
+            (save)="onSave($event)"
+            (cancelled)="editing = null"/>
+    }
+
+    <div>
+        @for (newMember of addMembers; track newMember.id) {
+            <div>
+                <span>{{ newMember.user_username }}</span>
+                <button (click)="agregarAlProyecto(newMember)">Agregar al proyecto</button>
+            </div>
+        }
+    </div>
+<button (click)="newTask()" class="btn-create">Crear Tarea</button>

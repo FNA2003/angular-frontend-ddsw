@@ -46,9 +46,7 @@ export class EditTask {
                private organizationService:OrganizationsService) {  }
 
   ngOnInit() {
-    // Chequeo si se quiere crear una tarea o editar otra
     this.newTask = this.task?.name === undefined;
-
     // Campos usables en el formulario para el modelo de tarea
     this.formulario = new FormGroup({
       name: new FormControl(this.task?.name, [Validators.required, Validators.maxLength(32), Validators.minLength(4)]),
@@ -112,6 +110,9 @@ export class EditTask {
 
 
   submit() {
+    console.log(this.newTask);
+    
+
     if(this.formulario.invalid) {
       this.toastr.warning("Uno o varios campos no tienen el formato requerido", "No se cargará la tarea");
       return;

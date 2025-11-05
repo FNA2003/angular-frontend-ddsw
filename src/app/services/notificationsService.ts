@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrganizationInvitation } from '../models/invitation.model';
 import { ApiGateway } from './api-gateway';
+import { ProjectUserMembership } from '../models/project.model';
 
 @Injectable({
   providedIn: 'root'

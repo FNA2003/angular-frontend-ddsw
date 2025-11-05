@@ -7,6 +7,9 @@ import { TasksService } from '../../../services/tasksService';
 import { Task } from '../../../models/task.model';
 import { EditTask } from "../task-editor-creator/task-editor-creator";
 import { DatePipe } from '@angular/common';
+import { OrganizationMembership } from '../../../models/organization.model';
+import { OrganizationsService } from '../../../services/organizationsService';
+import { ProjectUserMembership } from '../../../models/project.model';
 
 @Component({
   selector: 'app-list-organization-proyect-tasks',
@@ -22,6 +25,8 @@ export class ListOrganizationProyectTasks {
   editTaskId:number|null|undefined = null;
   editingBool:boolean = false;
 
+  addMembers:OrganizationMembership[] = [];
+
   showEditor = false;              // controla el *ngIf del editor
   editing: Task | null = null;     // tarea en edición (o null si es creación)
 
@@ -30,7 +35,8 @@ export class ListOrganizationProyectTasks {
               private toastr:ToastrService,
               private errorParserService:ErrorParserService,
               private projectsService:ProjectsService,
-              private tasksService: TasksService) {}
+              private tasksService: TasksService,
+              private orgService:OrganizationsService) {}
 
   ngOnInit() {
     const project_id = this.route.snapshot.paramMap.get('project_id');
@@ -50,6 +56,21 @@ export class ListOrganizationProyectTasks {
         this.toastr.error(this.errorParserService.parseBackendError(e), "Erro al tratar de obtener las tareas personales!");
       }
     });
+    this.orgService.getOrganizationUsers(this.organization_id)
+      .subscribe({
+        next: v => {
+          this.orgService.getProjectMembers(this.organization_id, this.project_id)
+            .subscribe({
+              next: x => {
+                for (let index = 0; index < x.length; index++) {
+                  if (v.findIndex(m => x[index].user === m.user) < 0) this.addMembers.push(v[index]);
+                }
+              },
+              error: e => {this.toastr.error(this.errorParserService.parseBackendError(e), "Error al obtener miembros");}
+            });
+        },
+        error: e => {this.toastr.error(this.errorParserService.parseBackendError(e), "Error al obtener miembros");}
+      });
   }
 
   /* Atrapo el emmiter de 'editor-creator-task' para mostrar la tarea actualizada sin volver a consultar el back */
@@ -98,6 +119,18 @@ export class ListOrganizationProyectTasks {
   newTask() {
     if (this.editing === null) {this.editing = new Task(); this.editingBool = false;}
     else this.editing = null;
+  }
+
+  agregarAlProyecto(usrOrgMember:OrganizationMembership) {
+    this.orgService.addProjectMember(this.organization_id, this.project_id, usrOrgMember.id as number)
+      .subscribe({
+        next: v => {
+          this.addMembers.splice(this.addMembers.indexOf(usrOrgMember), 1);
+        },
+        error: e => {
+          this.toastr.error(this.errorParserService.parseBackendError(e), "Error al tratar de agregar a un usuario al proyecto");
+        }
+      });
   }
 
 }
