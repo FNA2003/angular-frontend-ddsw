@@ -4,6 +4,7 @@
 > **_NOTAS:_**  
 > Para ejecutar el projecto es necesario instalar  ```ngx-toastr```.  
 > Vea las vulnerabilidades, errores y ```TODO's``` nombrados en este documento.
+> Este _README_ se encuentra desactualizado desde la creación de la rama ```newDB```.
 
 # 🗂️ Estructura general del proyecto
 
